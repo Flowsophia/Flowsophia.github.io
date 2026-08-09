@@ -46,6 +46,7 @@
 
         input[type="text"],
         input[type="email"],
+        select,
         textarea {
             width: 100%;
             padding: 12px;
@@ -58,9 +59,23 @@
 
         input[type="text"]:focus,
         input[type="email"]:focus,
+        select:focus,
         textarea:focus {
             border-color: #007bff;
             outline: none;
+        }
+
+        .mobile-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .country-code {
+            flex: 0 0 130px;
+        }
+
+        .mobile-number {
+            flex: 1;
         }
 
         textarea {
@@ -106,7 +121,21 @@
 
             <div class="form-group">
                 <label for="mobile">Mobile:</label>
-                <input type="text" id="mobile" name="mobile" required>
+                <div class="mobile-group">
+                    <select id="countryCode" name="countryCode" class="country-code" required>
+                        <option value="+82">South Korea (+82)</option>
+                        <option value="+1">USA/Canada (+1)</option>
+                        <option value="+81">Japan (+81)</option>
+                        <option value="+86">China (+86)</option>
+                        <option value="+44">UK (+44)</option>
+                        <option value="+49">Germany (+49)</option>
+                        <option value="+33">France (+33)</option>
+                        <option value="+61">Australia (+61)</option>
+                        <option value="+65">Singapore (+65)</option>
+                        <option value="+84">Vietnam (+84)</option>
+                    </select>
+                    <input type="text" id="mobile" name="mobile" class="mobile-number" placeholder="Enter phone number" required>
+                </div>
             </div>
 
             <div class="form-group">
@@ -132,13 +161,21 @@
 
             const subject = document.getElementById('subject').value;
             const name = document.getElementById('name').value;
-            const mobile = document.getElementById('mobile').value;
+            const countryCode = document.getElementById('countryCode').value;
+            const mobileNumber = document.getElementById('mobile').value;
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
 
+            // 모든 필드가 채워져 있는지 한 번 더 확인 (HTML5 required 속성 외 추가 방어 코드)
+            if (!subject || !name || !countryCode || !mobileNumber || !email || !message) {
+                alert('모든 항목을 빠짐없이 입력해 주세요.');
+                return;
+            }
+
+            const fullMobile = `${countryCode} ${mobileNumber}`;
             const recipient = "asiafield@msn.com";
             
-            const bodyContent = `Name: ${name}%0D%0AMobile: ${mobile}%0D%0AeMail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message}`;
+            const bodyContent = `Name: ${name}%0D%0AMobile: ${fullMobile}%0D%0AeMail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message}`;
             
             window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${bodyContent}`;
         }
