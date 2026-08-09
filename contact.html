@@ -92,7 +92,6 @@
             outline: none;
         }
 
-        /* 셀렉트박스 커스텀 화살표 */
         select {
             appearance: none;
             -webkit-appearance: none;
@@ -172,6 +171,76 @@
             color: #a0aec0;
             opacity: 1;
         }
+
+        /* 커스텀 모달 팝업 스타일 */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .custom-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .custom-modal {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .custom-modal-overlay.active .custom-modal {
+            transform: translateY(0);
+        }
+
+        .custom-modal-icon {
+            font-size: 40px;
+            color: #f39c12;
+            margin-bottom: 15px;
+        }
+
+        .custom-modal-message {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .custom-modal-btn {
+            background: #3b76cc;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .custom-modal-btn:hover {
+            background: #2b4c7e;
+        }
     </style>
 </head>
 <body>
@@ -185,7 +254,6 @@
         <form id="contactForm" onsubmit="sendEmail(event)">
             <div class="form-group">
                 <label for="subject">Inquiry Type/Topic</label>
-                <!-- 브라우저 기본 알림창 대신 친근한 영문 안내를 띄우기 위해 required 속성을 제거하고 자바스크립트로 제어합니다 -->
                 <input type="text" id="subject" name="subject" placeholder="e.g., General Inquiry, Partnership">
             </div>
 
@@ -281,7 +349,31 @@
         </form>
     </div>
 
+    <!-- 커스텀 모달 팝업 구조 -->
+    <div id="customModal" class="custom-modal-overlay">
+        <div class="custom-modal">
+            <div class="custom-modal-icon">
+                <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+            <div id="customModalMessage" class="custom-modal-message"></div>
+            <button class="custom-modal-btn" onclick="closeCustomModal()">OK</button>
+        </div>
+    </div>
+
     <script>
+        function showCustomModal(message, targetId) {
+            document.getElementById('customModalMessage').innerText = message;
+            document.getElementById('customModal').classList.add('active');
+            window.targetInputId = targetId;
+        }
+
+        function closeCustomModal() {
+            document.getElementById('customModal').classList.remove('active');
+            if (window.targetInputId) {
+                document.getElementById(window.targetInputId).focus();
+            }
+        }
+
         function sendEmail(event) {
             event.preventDefault();
 
@@ -293,30 +385,24 @@
             const email = document.getElementById('email').value.trim();
             const message = document.getElementById('message').value.trim();
 
-            // 친근한 영어 안내 메시지 출력 (누락된 항목이 있을 경우)
             if (!subject) {
-                alert('Oops! Please let us know the Inquiry Type or Topic.');
-                document.getElementById('subject').focus();
+                showCustomModal('Oops! Please let us know the Inquiry Type or Topic.', 'subject');
                 return;
             }
             if (!name) {
-                alert('Oops! Please enter your name so we know who you are.');
-                document.getElementById('name').focus();
+                showCustomModal('Oops! Please enter your name so we know who you are.', 'name');
                 return;
             }
             if (!mobileNumber) {
-                alert('Oops! Please provide your phone number to stay connected.');
-                document.getElementById('mobile').focus();
+                showCustomModal('Oops! Please provide your phone number to stay connected.', 'mobile');
                 return;
             }
             if (!email) {
-                alert('Oops! We need your eMail address to reply back to you.');
-                document.getElementById('email').focus();
+                showCustomModal('Oops! We need your eMail address to reply back to you.', 'email');
                 return;
             }
             if (!message) {
-                alert('Oops! Please write a short message before sending.');
-                document.getElementById('message').focus();
+                showCustomModal('Oops! Please write a short message before sending.', 'message');
                 return;
             }
 
