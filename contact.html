@@ -300,7 +300,7 @@
                         <option value="+353">Ireland (+353)</option>
                         <option value="+972">Israel (+972)</option>
                         <option value="+39">Italy (+39)</option>
-                        <option value="+81" selected>Japan (+81)</option>
+                        <option value="+81">Japan (+81)</option>
                         <option value="+60">Malaysia (+60)</option>
                         <option value="+52">Mexico (+52)</option>
                         <option value="+31">Netherlands (+31)</option>
@@ -315,7 +315,7 @@
                         <option value="+966">Saudi Arabia (+966)</option>
                         <option value="+65">Singapore (+65)</option>
                         <option value="+27">South Africa (+27)</option>
-                        <option value="+82">South Korea (+82)</option>
+                        <option value="+82" selected>South Korea (+82)</option>
                         <option value="+34">Spain (+34)</option>
                         <option value="+46">Sweden (+46)</option>
                         <option value="+41">Switzerland (+41)</option>
@@ -409,53 +409,84 @@
             const fullMobile = `${countryCode} ${mobileNumber}`;
             const recipient = "asiafield@msn.com";
             
-            // 선택한 국가 코드에 따른 현지 문화/언어별 비즈니스 포맷 설정 (HTML 태그 제거 및 줄바꿈 문자로 수정)
+            // 전 세계 국가별(국가번호별) 문화 및 언어에 맞춘 정중한 비즈니스 메일 인사말 템플릿
             let salutation = "";
-            let introName = "";
-            let closing = "";
+            let introText = "";
+            let closingText = "";
 
             switch(countryCode) {
-                case '+81': // 일본: 일본어 비즈니스 경어 (오세와니낫테오리마스 등)
+                case '+81': // 일본 (Japanese)
                     salutation = "担当者様%0D%0Aいつも大変お世話になっております。";
-                    introName = `私共は ${titlePrefix} ${name} と申します。`;
-                    closing = "敬具%0D%0A%0D%0A${titlePrefix} ${name}";
+                    introText = `私共は ${titlePrefix} ${name} と申します。%0D%0A%0D%0A${message}`;
+                    closingText = `敬具%0D%0A${titlePrefix} ${name}`;
                     break;
-                case '+82': // 한국: 한국어 비즈니스 정중한 표현
-                    salutation = "관계자 분께,%0D%0A안녕하십니까,";
-                    introName = `My name is ${titlePrefix} ${name}.`;
-                    closing = "감사합니다,%0D%0A${titlePrefix} ${name}";
-                    break;
-                case '+86': // 중국: 중국어 비즈니스 정중한 표현
-                    salutation = "尊敬的负责人：%0D%0A您好！";
-                    introName = `我是 ${titlePrefix} ${name}。`;
-                    closing = "顺祝商祺！%0D%0A${titlePrefix} ${name}";
-                    break;
-                case '+33': // 프랑스어권
-                    salutation = "Madame, Monsieur,";
-                    introName = `Je me nomme ${titlePrefix} ${name}.`;
-                    closing = "Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées,%0D%0A${titlePrefix} ${name}";
-                    break;
-                case '+49': // 독일어권
+                case '+49': // 독일 (German)
                     salutation = "Sehr geehrte Damen und Herren,";
-                    introName = `Mein Name ist ${titlePrefix} ${name}.`;
-                    closing = "Mit freundlichen Grüßen,%0D%0A${titlePrefix} ${name}";
+                    introText = `Mein Name ist ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Mit freundlichen Grüßen,%0D%0A${titlePrefix} ${name}`;
                     break;
-                default: // 영미권 및 글로벌 표준 포멀 톤
+                case '+82': // 대한민국 (Korean)
+                    salutation = "관계자 분께,%0D%0A안녕하십니까,";
+                    introText = `저는 ${titlePrefix} ${name}입니다.%0D%0A%0D%0A${message}`;
+                    closingText = `감사합니다,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+86': // 중국 (Chinese)
+                    salutation = "尊敬的负责人：%0D%0A您好！";
+                    introText = `我是 ${titlePrefix} ${name}。%0D%0A%0D%0A${message}`;
+                    closingText = `顺祝商祺！%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+33': // 프랑스 (French)
+                    salutation = "Madame, Monsieur,";
+                    introText = `Je me nomme ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+34': // 스페인 (Spanish)
+                    salutation = "Estimado/a Señor/a,";
+                    introText = `Mi nombre es ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Atentamente,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+39': // 이탈리아 (Italian)
+                    salutation = "Gentile Signore/Signora,";
+                    introText = `Il mio nome è ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Cordiali saluti,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+7': // 러시아 (Russian)
+                    salutation = "Уважаемый господин / Уважаемая госпожа,";
+                    introText = `Меня зовут ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `С уважением,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+55': // 브라질 / 포르투갈어 (Portuguese)
+                    salutation = "Prezado(a) Senhor(a),";
+                    introText = `Meu nome é ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Atenciosamente,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+84': // 베트남 (Vietnamese)
+                    salutation = "Kính gửi Quý công ty,%0D%0AXin chào,";
+                    introText = `Tôi tên là ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Trân trọng,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+66': // 태국 (Thai)
+                    salutation = "เรียน ผู้เกี่ยวข้อง,%0D%0Aสวัสดีครับ/ค่ะ";
+                    introText = `กระผม/ดิฉันชื่อ ${titlePrefix} ${name} ครับ/ค่ะ%0D%0A%0D%0A${message}`;
+                    closingText = `ด้วยความเคารพอย่างสูง,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+62': // 인도네시아 (Indonesian)
+                    salutation = "Kepada Yth. Bapak/Ibu,%0D%0ASelamat siang,";
+                    introText = `Nama saya adalah ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Hormat saya,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+91': // 인도 / 영어권 (Global English)
+                case '+44': // 영국
+                case '+1':  // 미국/캐나다
+                case '+61': // 호주
+                default: // 기타 모든 글로벌 국가
                     salutation = "Dear Sir or Madam,";
-                    introName = `My name is ${titlePrefix} ${name}.`;
-                    closing = "Best regards,%0D%0A${titlePrefix} ${name}";
+                    introText = `My name is ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Best regards,%0D%0A${titlePrefix} ${name}`;
                     break;
             }
 
-            // 본문 조합 시 일본어 등의 경우 서식 유지를 위해 분기 처리
-            let bodyContent = "";
-            if (countryCode === '+81') {
-                bodyContent = `${salutation}%0D%0A%0D%0A${introName}%0D%0A%0D%0A${message}%0D%0A%0D%0A敬具%0D%0A${titlePrefix} ${name}%0D%0A%0D%0A---%0D%0AMobile: ${fullMobile}%0D%0AeMail: ${email}`;
-            } else if (countryCode === '+86') {
-                bodyContent = `${salutation}%0D%0A%0D%0A${introName}%0D%0A%0D%0A${message}%0D%0A%0D%0A顺祝商祺！%0D%0A${titlePrefix} ${name}%0D%0A%0D%0A---%0D%0AMobile: ${fullMobile}%0D%0AeMail: ${email}`;
-            } else {
-                bodyContent = `${salutation}%0D%0A%0D%0A${introName}%0D%0A%0D%0A${message}%0D%0A%0D%0A${closing}%0D%0A%0D%0A---%0D%0AMobile: ${fullMobile}%0D%0AeMail: ${email}`;
-            }
+            const bodyContent = `${salutation}%0D%0A%0D%0A${introText}%0D%0A%0D%0A${closingText}%0D%0A%0D%0A---%0D%0AMobile: ${fullMobile}%0D%0AeMail: ${email}`;
             
             // 메일 Subject 안에 'get in touch'를 통해 입력된 내용이 자동 기입되도록 설정
             const emailSubject = `[Inquiry] ${subject}`;
