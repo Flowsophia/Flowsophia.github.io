@@ -6,12 +6,11 @@
     <title>Get in Touch</title>
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- 부드럽고 친근한 폰트 (Outfit / Plus Jakarta Sans) -->
+    <!-- 부드럽고 친근한 폰트 (Plus Jakarta Sans) -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            /* 따뜻하고 편안한 파스텔 톤 그라데이션 배경 */
             background: linear-gradient(135deg, #fcefee 0%, #e8f0fe 100%);
             margin: 0;
             padding: 40px 20px;
@@ -23,7 +22,6 @@
         }
 
         .contact-container {
-            /* 몽환적이고 부드러운 글래스모피즘 & 소프트 섀도우 스타일 */
             background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(12px);
             padding: 45px 40px;
@@ -170,7 +168,6 @@
             transform: translateY(0);
         }
 
-        /* 플레이스홀더 색상 부드럽게 조정 */
         ::placeholder {
             color: #a0aec0;
             opacity: 1;
@@ -188,25 +185,26 @@
         <form id="contactForm" onsubmit="sendEmail(event)">
             <div class="form-group">
                 <label for="subject">Inquiry Type/Topic</label>
-                <input type="text" id="subject" name="subject" placeholder="e.g., General Inquiry, Partnership" required>
+                <!-- 브라우저 기본 알림창 대신 친근한 영문 안내를 띄우기 위해 required 속성을 제거하고 자바스크립트로 제어합니다 -->
+                <input type="text" id="subject" name="subject" placeholder="e.g., General Inquiry, Partnership">
             </div>
 
             <div class="form-group">
                 <label for="name">Enter your full Name</label>
                 <div class="name-group">
-                    <select id="titlePrefix" name="titlePrefix" class="title-select" required>
+                    <select id="titlePrefix" name="titlePrefix" class="title-select">
                         <option value="Mr.">Mr.</option>
                         <option value="Ms.">Ms.</option>
                         <option value="Miss">Miss</option>
                     </select>
-                    <input type="text" id="name" name="name" class="name-input" placeholder="Your name" required>
+                    <input type="text" id="name" name="name" class="name-input" placeholder="Your name">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="mobile">Enter your phone number</label>
                 <div class="mobile-group">
-                    <select id="countryCode" name="countryCode" class="country-code" required>
+                    <select id="countryCode" name="countryCode" class="country-code">
                         <option value="+93">Afghanistan (+93)</option>
                         <option value="+355">Albania (+355)</option>
                         <option value="+213">Algeria (+213)</option>
@@ -262,18 +260,18 @@
                         <option value="+1">United States (+1)</option>
                         <option value="+84">Vietnam (+84)</option>
                     </select>
-                    <input type="text" id="mobile" name="mobile" class="mobile-number" placeholder="Phone number" required>
+                    <input type="text" id="mobile" name="mobile" class="mobile-number" placeholder="Phone number">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="email">eMail</label>
-                <input type="email" id="email" name="email" placeholder="example@domain.com" required>
+                <input type="email" id="email" name="email" placeholder="example@domain.com">
             </div>
 
             <div class="form-group">
                 <label for="message">Message</label>
-                <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+                <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
             </div>
 
             <button type="submit" class="submit-btn">
@@ -287,16 +285,38 @@
         function sendEmail(event) {
             event.preventDefault();
 
-            const subject = document.getElementById('subject').value;
+            const subject = document.getElementById('subject').value.trim();
             const titlePrefix = document.getElementById('titlePrefix').value;
-            const name = document.getElementById('name').value;
+            const name = document.getElementById('name').value.trim();
             const countryCode = document.getElementById('countryCode').value;
-            const mobileNumber = document.getElementById('mobile').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
+            const mobileNumber = document.getElementById('mobile').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
 
-            if (!subject || !titlePrefix || !name || !countryCode || !mobileNumber || !email || !message) {
-                alert('Please fill in all fields completely.');
+            // 친근한 영어 안내 메시지 출력 (누락된 항목이 있을 경우)
+            if (!subject) {
+                alert('Oops! Please let us know the Inquiry Type or Topic.');
+                document.getElementById('subject').focus();
+                return;
+            }
+            if (!name) {
+                alert('Oops! Please enter your name so we know who you are.');
+                document.getElementById('name').focus();
+                return;
+            }
+            if (!mobileNumber) {
+                alert('Oops! Please provide your phone number to stay connected.');
+                document.getElementById('mobile').focus();
+                return;
+            }
+            if (!email) {
+                alert('Oops! We need your eMail address to reply back to you.');
+                document.getElementById('email').focus();
+                return;
+            }
+            if (!message) {
+                alert('Oops! Please write a short message before sending.');
+                document.getElementById('message').focus();
                 return;
             }
 
