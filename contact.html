@@ -6,9 +6,11 @@
     <title>Contact Us</title>
     <!-- 아이콘 사용을 위한 FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 친근한 느낌을 위한 Google Fonts 추가 -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #f4f7f6;
             margin: 0;
             padding: 40px 20px;
@@ -27,10 +29,13 @@
             max-width: 500px;
         }
 
+        /* 1) 'Get in Touch' 스타일 변경 */
         h2 {
             margin-bottom: 25px;
-            color: #333;
+            color: #4a90e2; /* 친근한 블루 계열 색상 */
             text-align: center;
+            font-size: 28px;
+            font-weight: 600;
         }
 
         .form-group {
@@ -61,7 +66,7 @@
         input[type="email"]:focus,
         select:focus,
         textarea:focus {
-            border-color: #007bff;
+            border-color: #4a90e2;
             outline: none;
         }
 
@@ -97,7 +102,7 @@
         }
 
         .submit-btn {
-            background-color: #007bff;
+            background-color: #4a90e2; /* 버튼 색상 통일 */
             color: white;
             border: none;
             padding: 12px 20px;
@@ -113,22 +118,25 @@
         }
 
         .submit-btn:hover {
-            background-color: #0056b3;
+            background-color: #357abd;
         }
     </style>
 </head>
 <body>
 
     <div class="contact-container">
-        <h2>Contact Us</h2>
+        <!-- 1) Get in Touch -->
+        <h2>Get in Touch</h2>
         <form id="contactForm" onsubmit="sendEmail(event)">
+            <!-- 2) Inquiry Type/Topic -->
             <div class="form-group">
-                <label for="subject">Subject:</label>
+                <label for="subject">Inquiry Type/Topic:</label>
                 <input type="text" id="subject" name="subject" required>
             </div>
 
+            <!-- 3) Enter your full Name -->
             <div class="form-group">
-                <label for="name">Name:</label>
+                <label for="name">Enter your full Name:</label>
                 <div class="name-group">
                     <select id="titlePrefix" name="titlePrefix" class="title-select" required>
                         <option value="Mr.">Mr.</option>
@@ -139,8 +147,9 @@
                 </div>
             </div>
 
+            <!-- 4) Enter your phone number -->
             <div class="form-group">
-                <label for="mobile">Mobile:</label>
+                <label for="mobile">Enter your phone number:</label>
                 <div class="mobile-group">
                     <select id="countryCode" name="countryCode" class="country-code" required>
                         <option value="+82">South Korea (+82)</option>
@@ -168,8 +177,9 @@
                 <textarea id="message" name="message" required></textarea>
             </div>
 
+            <!-- 5) Send Message -->
             <button type="submit" class="submit-btn">
-                <span>Send</span>
+                <span>Send Message</span>
                 <i class="fa-solid fa-paper-plane"></i>
             </button>
         </form>
@@ -195,7 +205,6 @@
             const fullMobile = `${countryCode} ${mobileNumber}`;
             const recipient = "asiafield@msn.com";
             
-            // 메일 본문 포맷 구성 (Dear Sir, My name is ..., 메시지 내용, Best Regards, 호칭 및 이름)
             const bodyContent = `Dear Sir,%0D%0A%0D%0AMy name is ${titlePrefix} ${name}.%0D%0A%0D%0A${message}%0D%0A%0D%0ABest Regards,%0D%0A${titlePrefix} ${name}%0D%0A%0D%0A---%0D%0AMobile: ${fullMobile}%0D%0AeMail: ${email}`;
             
             window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${bodyContent}`;
