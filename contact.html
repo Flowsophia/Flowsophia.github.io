@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
-    <!-- 아이콘 사용을 위한 FontAwesome CDN -->
+    <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- 친근한 느낌을 위한 Google Fonts 추가 -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -22,31 +22,32 @@
 
         .contact-container {
             background: #ffffff;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 35px 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
         }
 
-        /* 1) 'Get in Touch' 스타일 변경 */
         h2 {
-            margin-bottom: 25px;
-            color: #4a90e2; /* 친근한 블루 계열 색상 */
+            margin-bottom: 30px;
+            color: #4a90e2;
             text-align: center;
             font-size: 28px;
             font-weight: 600;
+            letter-spacing: -0.5px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
+            font-weight: 500;
+            color: #444;
+            font-size: 14px;
         }
 
         input[type="text"],
@@ -54,12 +55,15 @@
         select,
         textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            padding: 12px 14px;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
             box-sizing: border-box;
             font-size: 14px;
-            transition: border-color 0.3s;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: #fff;
+            transition: all 0.3s ease;
         }
 
         input[type="text"]:focus,
@@ -67,7 +71,24 @@
         select:focus,
         textarea:focus {
             border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.12);
             outline: none;
+        }
+
+        /* 셀렉트박스 커스텀 화살표 및 디자인 개선 */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 14px;
+            padding-right: 35px;
+            cursor: pointer;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         .name-group {
@@ -76,11 +97,12 @@
         }
 
         .title-select {
-            flex: 0 0 110px;
+            flex: 0 0 95px;
         }
 
         .name-input {
             flex: 1;
+            min-width: 0;
         }
 
         .mobile-group {
@@ -89,52 +111,58 @@
         }
 
         .country-code {
-            flex: 0 0 130px;
+            flex: 0 0 160px;
         }
 
         .mobile-number {
             flex: 1;
+            min-width: 0;
         }
 
         textarea {
             resize: vertical;
-            height: 150px;
+            height: 140px;
         }
 
         .submit-btn {
-            background-color: #4a90e2; /* 버튼 색상 통일 */
+            background-color: #4a90e2;
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
+            padding: 14px 20px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+            margin-top: 10px;
         }
 
         .submit-btn:hover {
             background-color: #357abd;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
 
     <div class="contact-container">
-        <!-- 1) Get in Touch -->
         <h2>Get in Touch</h2>
         <form id="contactForm" onsubmit="sendEmail(event)">
-            <!-- 2) Inquiry Type/Topic -->
             <div class="form-group">
                 <label for="subject">Inquiry Type/Topic:</label>
                 <input type="text" id="subject" name="subject" required>
             </div>
 
-            <!-- 3) Enter your full Name -->
             <div class="form-group">
                 <label for="name">Enter your full Name:</label>
                 <div class="name-group">
@@ -147,13 +175,12 @@
                 </div>
             </div>
 
-            <!-- 4) Enter your phone number -->
             <div class="form-group">
                 <label for="mobile">Enter your phone number:</label>
                 <div class="mobile-group">
                     <select id="countryCode" name="countryCode" class="country-code" required>
-                        <option value="+82">South Korea (+82)</option>
-                        <option value="+1">USA/Canada (+1)</option>
+                        <option value="+82">Korea (+82)</option>
+                        <option value="+1">USA / Canada (+1)</option>
                         <option value="+81">Japan (+81)</option>
                         <option value="+86">China (+86)</option>
                         <option value="+44">UK (+44)</option>
@@ -177,7 +204,6 @@
                 <textarea id="message" name="message" required></textarea>
             </div>
 
-            <!-- 5) Send Message -->
             <button type="submit" class="submit-btn">
                 <span>Send Message</span>
                 <i class="fa-solid fa-paper-plane"></i>
@@ -198,7 +224,7 @@
             const message = document.getElementById('message').value;
 
             if (!subject || !titlePrefix || !name || !countryCode || !mobileNumber || !email || !message) {
-                alert('모든 항목을 빠짐없이 입력해 주세요.');
+                alert('Please fill in all fields completely.');
                 return;
             }
 
