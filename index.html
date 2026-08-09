@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlowSophia - Get in Touch</title>
+    <title>Get in Touch</title>
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- 부드럽고 친근한 폰트 (Plus Jakarta Sans) -->
@@ -11,128 +11,25 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #fcefee 0%, #e8f0fe 100%);
             margin: 0;
-            padding: 0;
-            min-height: 100vh;
+            padding: 40px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
             color: #2c3e50;
         }
 
-        /* 메인 페이지 배경 안내용 스타일 (www.flowsophia.com 느낌 연출) */
-        .landing-content {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .landing-content h1 {
-            font-size: 42px;
-            color: #2b4c7e;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .landing-content p {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 30px;
-        }
-
-        /* 우측 하단 고정 Get In Touch 플로팅 아이콘 버튼 */
-        .floating-contact-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #5c93df 0%, #3b76cc 100%);
-            color: white;
-            border: none;
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(59, 118, 204, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            z-index: 998;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .floating-contact-btn:hover {
-            transform: scale(1.1) translateY(-3px);
-            box-shadow: 0 15px 30px rgba(59, 118, 204, 0.5);
-        }
-
-        /* 화면 전체를 덮는 모달 오버레이 */
-        .contact-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.35s ease;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .contact-modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
         .contact-container {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(12px);
             padding: 45px 40px;
             border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06), 0 5px 15px rgba(74, 144, 226, 0.08);
             width: 100%;
             max-width: 520px;
             border: 1px solid rgba(255, 255, 255, 0.8);
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-            transform: translateY(20px);
-            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .contact-modal-overlay.active .contact-container {
-            transform: translateY(0);
-        }
-
-        /* 닫기 버튼 (X 아이콘) */
-        .close-modal-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #f1f5f9;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            font-size: 16px;
-            color: #64748b;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.2s;
-        }
-
-        .close-modal-btn:hover {
-            background: #e2e8f0;
-            color: #1e293b;
         }
 
         .header-section {
@@ -287,7 +184,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10000;
+            z-index: 9999;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
@@ -348,127 +245,108 @@
 </head>
 <body>
 
-    <!-- www.flowsophia.com 기본 화면 영역 -->
-    <div class="landing-content">
-        <h1>Welcome to FlowSophia</h1>
-        <p>Precision Innovation for Advanced Film Technologies</p>
-    </div>
+    <div class="contact-container">
+        <div class="header-section">
+            <h2>Get in Touch</h2>
+            <p class="subtitle">Please feel free to drop us a message anytime!</p>
+        </div>
 
-    <!-- 우측 하단 Get In Touch 플로팅 아이콘 버튼 -->
-    <button class="floating-contact-btn" onclick="openContactModal()" title="Get in Touch">
-        <i class="fa-solid fa-headset"></i>
-    </button>
-
-    <!-- Get In Touch 모달 화면 (contact.html 오버레이 영역) -->
-    <div id="contactModalOverlay" class="contact-modal-overlay" onclick="handleOutsideClick(event)">
-        <div class="contact-container">
-            <!-- 닫기 버튼 -->
-            <button class="close-modal-btn" onclick="closeContactModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <div class="header-section">
-                <h2>Get in Touch</h2>
-                <p class="subtitle">Please feel free to drop us a message anytime!</p>
+        <form id="contactForm" onsubmit="sendEmail(event)">
+            <div class="form-group">
+                <label for="subject">Inquiry Type/Topic</label>
+                <input type="text" id="subject" name="subject" placeholder="e.g., General Inquiry, Partnership">
             </div>
 
-            <form id="contactForm" onsubmit="sendEmail(event)">
-                <div class="form-group">
-                    <label for="subject">Inquiry Type/Topic</label>
-                    <input type="text" id="subject" name="subject" placeholder="e.g., General Inquiry, Partnership">
+            <div class="form-group">
+                <label for="name">Enter your full Name</label>
+                <div class="name-group">
+                    <select id="titlePrefix" name="titlePrefix" class="title-select">
+                        <option value="Mr.">Mr.</option>
+                        <option value="Ms.">Ms.</option>
+                        <option value="Miss">Miss</option>
+                    </select>
+                    <input type="text" id="name" name="name" class="name-input" placeholder="Your name">
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="name">Enter your full Name</label>
-                    <div class="name-group">
-                        <select id="titlePrefix" name="titlePrefix" class="title-select">
-                            <option value="Mr.">Mr.</option>
-                            <option value="Ms.">Ms.</option>
-                            <option value="Miss">Miss</option>
-                        </select>
-                        <input type="text" id="name" name="name" class="name-input" placeholder="Your name">
-                    </div>
+            <div class="form-group">
+                <label for="mobile">Enter your phone number</label>
+                <div class="mobile-group">
+                    <select id="countryCode" name="countryCode" class="country-code">
+                        <option value="+93">Afghanistan (+93)</option>
+                        <option value="+355">Albania (+355)</option>
+                        <option value="+213">Algeria (+213)</option>
+                        <option value="+54">Argentina (+54)</option>
+                        <option value="+61">Australia (+61)</option>
+                        <option value="+43">Austria (+43)</option>
+                        <option value="+880">Bangladesh (+880)</option>
+                        <option value="+32">Belgium (+32)</option>
+                        <option value="+55">Brazil (+55)</option>
+                        <option value="+1">Canada (+1)</option>
+                        <option value="+56">Chile (+56)</option>
+                        <option value="+86">China (+86)</option>
+                        <option value="+57">Colombia (+57)</option>
+                        <option value="+420">Czech Republic (+420)</option>
+                        <option value="+45">Denmark (+45)</option>
+                        <option value="+20">Egypt (+20)</option>
+                        <option value="+358">Finland (+358)</option>
+                        <option value="+33">France (+33)</option>
+                        <option value="+49">Germany (+49)</option>
+                        <option value="+30">Greece (+30)</option>
+                        <option value="+852">Hong Kong (+852)</option>
+                        <option value="+36">Hungary (+36)</option>
+                        <option value="+91">India (+91)</option>
+                        <option value="+62">Indonesia (+62)</option>
+                        <option value="+353">Ireland (+353)</option>
+                        <option value="+972">Israel (+972)</option>
+                        <option value="+39">Italy (+39)</option>
+                        <option value="+81">Japan (+81)</option>
+                        <option value="+60">Malaysia (+60)</option>
+                        <option value="+52">Mexico (+52)</option>
+                        <option value="+31">Netherlands (+31)</option>
+                        <option value="+64">New Zealand (+64)</option>
+                        <option value="+47">Norway (+47)</option>
+                        <option value="+92">Pakistan (+92)</option>
+                        <option value="+63">Philippines (+63)</option>
+                        <option value="+48">Poland (+48)</option>
+                        <option value="+351">Portugal (+351)</option>
+                        <option value="+40">Romania (+40)</option>
+                        <option value="+7">Russia (+7)</option>
+                        <option value="+966">Saudi Arabia (+966)</option>
+                        <option value="+65">Singapore (+65)</option>
+                        <option value="+27">South Africa (+27)</option>
+                        <option value="+82" selected>South Korea (+82)</option>
+                        <option value="+34">Spain (+34)</option>
+                        <option value="+46">Sweden (+46)</option>
+                        <option value="+41">Switzerland (+41)</option>
+                        <option value="+886">Taiwan (+886)</option>
+                        <option value="+66">Thailand (+66)</option>
+                        <option value="+90">Turkey (+90)</option>
+                        <option value="+380">Ukraine (+380)</option>
+                        <option value="+971">United Arab Emirates (+971)</option>
+                        <option value="+44">United Kingdom (+44)</option>
+                        <option value="+1">United States (+1)</option>
+                        <option value="+84">Vietnam (+84)</option>
+                    </select>
+                    <input type="text" id="mobile" name="mobile" class="mobile-number" placeholder="Phone number">
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="mobile">Enter your phone number</label>
-                    <div class="mobile-group">
-                        <select id="countryCode" name="countryCode" class="country-code">
-                            <option value="+93">Afghanistan (+93)</option>
-                            <option value="+355">Albania (+355)</option>
-                            <option value="+213">Algeria (+213)</option>
-                            <option value="+54">Argentina (+54)</option>
-                            <option value="+61">Australia (+61)</option>
-                            <option value="+43">Austria (+43)</option>
-                            <option value="+880">Bangladesh (+880)</option>
-                            <option value="+32">Belgium (+32)</option>
-                            <option value="+55">Brazil (+55)</option>
-                            <option value="+1">Canada (+1)</option>
-                            <option value="+56">Chile (+56)</option>
-                            <option value="+86">China (+86)</option>
-                            <option value="+57">Colombia (+57)</option>
-                            <option value="+420">Czech Republic (+420)</option>
-                            <option value="+45">Denmark (+45)</option>
-                            <option value="+20">Egypt (+20)</option>
-                            <option value="+358">Finland (+358)</option>
-                            <option value="+33">France (+33)</option>
-                            <option value="+49">Germany (+49)</option>
-                            <option value="+30">Greece (+30)</option>
-                            <option value="+852">Hong Kong (+852)</option>
-                            <option value="+36">Hungary (+36)</option>
-                            <option value="+91">India (+91)</option>
-                            <option value="+62">Indonesia (+62)</option>
-                            <option value="+353">Ireland (+353)</option>
-                            <option value="+972">Israel (+972)</option>
-                            <option value="+39">Italy (+39)</option>
-                            <option value="+81">Japan (+81)</option>
-                            <option value="+60">Malaysia (+60)</option>
-                            <option value="+52">Mexico (+52)</option>
-                            <option value="+31">Netherlands (+31)</option>
-                            <option value="+64">New Zealand (+64)</option>
-                            <option value="+47">Norway (+47)</option>
-                            <option value="+92">Pakistan (+92)</option>
-                            <option value="+63">Philippines (+63)</option>
-                            <option value="+48">Poland (+48)</option>
-                            <option value="+351">Portugal (+351)</option>
-                            <option value="+40">Romania (+40)</option>
-                            <option value="+7">Russia (+7)</option>
-                            <option value="+966">Saudi Arabia (+966)</option>
-                            <option value="+65">Singapore (+65)</option>
-                            <option value="+27">South Africa (+27)</option>
-                            <option value="+82" selected>South Korea (+82)</option>
-                            <option value="+34">Spain (+34)</option>
-                            <option value="+46">Sweden (+46)</option>
-                            <option value="+41">Switzerland (+41)</option>
-                            <option value="+886">Taiwan (+886)</option>
-                            <option value="+66">Thailand (+66)</option>
-                            <option value="+90">Turkey (+90)</option>
-                            <option value="+380">Ukraine (+380)</option>
-                            <option value="+971">United Arab Emirates (+971)</option>
-                            <option value="+44">United Kingdom (+44)</option>
-                            <option value="+1">United States (+1)</option>
-                            <option value="+84">Vietnam (+84)</option>
-                        </select>
-                        <input type="text" id="mobile" name="mobile" class="mobile-number" placeholder="Phone number">
-                    </div>
-                </div>
+            <div class="form-group">
+                <label for="email">eMail</label>
+                <input type="email" id="email" name="email" placeholder="example@domain.com">
+            </div>
 
-                <div class="form-group">
-                    <label for="email">eMail</label>
-                    <input type="email" id="email" name="email" placeholder="example@domain.com">
-                </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
+            </div>
 
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">
-                    <span>Send Message</span>
-                    <i class="fa-solid fa-paper-plane"></i>
-                </button>
-            </form>
-        </div>
+            <button type="submit" class="submit-btn">
+                <span>Send Message</span>
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </form>
     </div>
 
     <!-- 커스텀 모달 팝업 구조 -->
@@ -483,22 +361,6 @@
     </div>
 
     <script>
-        // 모달 열기/닫기 함수
-        function openContactModal() {
-            document.getElementById('contactModalOverlay').classList.add('active');
-        }
-
-        function closeContactModal() {
-            document.getElementById('contactModalOverlay').classList.remove('active');
-        }
-
-        // 모달 바깥 영역 클릭 시 닫기
-        function handleOutsideClick(event) {
-            if (event.target.id === 'contactModalOverlay') {
-                closeContactModal();
-            }
-        }
-
         function showCustomModal(message, targetId) {
             document.getElementById('customModalMessage').innerText = message;
             document.getElementById('customModal').classList.add('active');
@@ -620,6 +482,8 @@
             }
 
             const bodyContent = `${salutation}%0D%0A%0D%0A${introText}%0D%0A%0D%0A${closingText}%0D%0A%0D%0A---%0D%0AMobile: ${fullMobile}%0D%0AeMail: ${email}`;
+            
+            // Subject 내 [Inquiry] 부분을 [From Get In Touch]로 변경
             const emailSubject = `[From Get In Touch] ${subject}`;
 
             window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(emailSubject)}&body=${bodyContent}`;
