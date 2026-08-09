@@ -5,40 +5,376 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>등대시인 유현 (Flowsophia) | Lighthouse Poet</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; line-height: 1.8; color: #333333; background-color: #f8fafc; margin: 0; padding: 20px; word-break: keep-all; }
-        .container { max-width: 800px; margin: 40px auto; background: #ffffff; padding: 60px 50px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.04); }
-        .hero-image-section { margin-bottom: 40px; text-align: center; }
-        .hero-image-section img { width: 100%; max-width: 700px; border-radius: 15px; }
-        h1 { color: #1a365d; font-size: 2.2rem; margin: 0; font-weight: 700; }
-        .eng-title { font-family: 'Cormorant Garamond', serif; color: #4a5568; font-size: 1.5rem; font-style: italic; display: block; margin-bottom: 25px; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            color: #333333;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            word-break: keep-all;
+        }
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            background: #ffffff;
+            padding: 60px 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.04);
+        }
+        header {
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 40px;
+            margin-bottom: 30px;
+        }
+        /* 이미지 섹션 추가 스타일 */
+        .hero-image-section {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .hero-image-section img {
+            width: 100%;
+            max-width: 700px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a365d;
+            font-size: 2.2rem;
+            margin: 0 0 5px 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .eng-title {
+            font-family: 'Cormorant Garamond', serif;
+            color: #4a5568;
+            font-size: 1.5rem;
+            font-weight: 400;
+            display: block;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        .subtitle {
+            color: #2d3748;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin: 0;
+            font-weight: 500;
+        }
+        .eng-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            display: block;
+            margin-top: 15px;
+            font-style: italic;
+            color: #718096;
+            font-size: 1.15rem;
+            line-height: 1.5;
+        }
+        h2 {
+            color: #2c5282;
+            font-size: 1.3rem;
+            border-left: 3px solid #2b6cb0;
+            padding-left: 15px;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-weight: 700;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+        .eng-h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: #a0aec0;
+            font-weight: 400;
+            font-style: italic;
+            letter-spacing: 0.5px;
+        }
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .info-list li {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #4a5568;
+            width: 100px;
+            flex-shrink: 0;
+        }
+        .info-val {
+            color: #2d3748;
+            margin-right: 15px;
+        }
+        .info-eng {
+            font-family: 'Cormorant Garamond', serif;
+            color: #718096;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
         
-        /* 문의하기 섹션 스타일 (링크형으로 변경) */
-        .contact-section { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: #ffffff; padding: 40px; border-radius: 16px; text-align: center; margin-top: 60px; text-decoration: none; display: block; transition: transform 0.2s; }
-        .contact-section:hover { transform: translateY(-5px); }
-        .contact-section h3 { margin-top: 0; margin-bottom: 10px; font-size: 1.5rem; }
-        .contact-section .eng-sub { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; margin-bottom: 15px; opacity: 0.9; }
-        .contact-section p { margin-bottom: 20px; font-size: 0.95rem; opacity: 0.95; }
-        .contact-section .link-text { font-weight: 700; text-decoration: underline; }
+        /* Video Section Styles */
+        .video-section {
+            background-color: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        .video-section h3 {
+            color: #c53030;
+            margin: 0 0 10px 0;
+            font-size: 1.25rem;
+        }
+        .video-eng-title {
+            font-family: 'Cormorant Garamond', serif;
+            color: #e53e3e;
+            font-style: italic;
+            display: block;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        .video-desc {
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        .video-eng-desc {
+            font-family: 'Cormorant Garamond', serif;
+            color: #718096;
+            font-style: italic;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+        .youtube-btn {
+            display: inline-block;
+            background-color: #e53e3e;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(229, 62, 62, 0.2);
+        }
+        .youtube-btn:hover {
+            background-color: #c53030;
+        }
+
+        blockquote {
+            background-color: #f7fafc;
+            border-left: 3px solid #63b3ed;
+            margin: 30px 0;
+            padding: 25px;
+            border-radius: 0 10px 10px 0;
+        }
+        blockquote p {
+            margin: 0 0 10px 0;
+            font-weight: 600;
+            color: #2b6cb0;
+            font-size: 1.1rem;
+        }
+        blockquote .kor-quote {
+            color: #2d3748;
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        blockquote .eng-quote {
+            font-family: 'Cormorant Garamond', serif;
+            display: block;
+            font-size: 1.1rem;
+            color: #718096;
+            font-style: italic;
+        }
+        .philosophy-item {
+            margin-bottom: 30px;
+        }
+        .philosophy-title {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+        .philosophy-eng-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 1.15rem;
+            margin-top: 2px;
+        }
+        .philosophy-desc {
+            color: #4a5568;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        .philosophy-eng-desc {
+            font-family: 'Cormorant Garamond', serif;
+            color: #718096;
+            font-size: 1.1rem;
+            font-style: italic;
+            line-height: 1.4;
+        }
+        .contact-section {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 60px;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+        }
+        .contact-section h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        .contact-section .eng-contact-title {
+            font-family: 'Cormorant Garamond', serif;
+            display: block;
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #bfdbfe;
+            font-weight: 400;
+        }
+        .contact-section p {
+            margin: 0 0 15px 0;
+            font-size: 1rem;
+            color: #e0e7ff;
+        }
+        .contact-section a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.4rem;
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+        .contact-section a:hover {
+            color: #bfdbfe;
+            border-color: #bfdbfe;
+        }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: #a0aec0;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 40px 25px;
+            }
+            h1 { font-size: 1.8rem; }
+            .info-list li { flex-direction: column; }
+            .info-label { margin-bottom: 5px; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <div class="hero-image-section"><img src="Flowsophia.png" alt="Flowsophia 등대시인 유현"></div>
+        <!-- 이미지 섹션 -->
+        <div class="hero-image-section">
+            <img src="Flowsophia.png" alt="Flowsophia 등대시인 유현">
+        </div>
+        
         <h1>등대시인 유현</h1>
         <span class="eng-title">Lighthouse Poet, Yoo Hyeun</span>
+        
+        <p class="subtitle">
+            "어두운 바다에서 길을 잃은 배들을 위해 묵묵히 빛을 비추는 등대처럼,<br>지치고 상처받은 마음들에 따뜻한 위로를 건넵니다."
+        </p>
+        <span class="eng-subtitle">
+            "Like a lighthouse silently guiding lost ships in the dark sea,<br>I offer warm comfort to weary and wounded hearts."
+        </span>
     </header>
 
-    <!-- 문의 및 소통 섹션 (클릭 시 Flowsophia.com/contact.html로 이동) -->
-    <a href="https://Flowsophia.com/contact.html" class="contact-section">
-        <h3>문의 및 소통</h3>
-        <div class="eng-sub">Contact & Inquiries</div>
-        <p>강연, 시 기고 및 협업을 위해 메일을 보내주세요.</p>
-        <span class="link-text">문의하기 클릭</span>
-    </a>
+    <main>
+        <div class="video-section">
+            <h3>🎥 시 낭송 영상 채널</h3>
+            <span class="video-eng-title">Poetry Reading Video Channel</span>
+            
+            <p class="video-desc">등대시인 유현의 목소리로 전하는 '마음 닿는 시'를 영상으로 만나보세요.<br>지친 마음에 잔잔한 위로가 되는 시 낭송을 유튜브 채널(@flowsophia)에서 공유합니다.</p>
+            <p class="video-eng-desc">Experience "poems touching the heart" delivered through the voice of Lighthouse Poet Yoo Hyeun.<br>We share comforting poetry readings on our YouTube channel (@flowsophia).</p>
+            
+            <a href="https://www.youtube.com/@flowsophia" target="_blank" class="youtube-btn">유튜브 채널 방문하기 (Visit YouTube)</a>
+        </div>
+
+        <h2>기본 정보 <span class="eng-h2">Profile</span></h2>
+        <ul class="info-list">
+            <li>
+                <span class="info-label">Author</span>
+                <span class="info-val">유현</span>
+                <span class="info-eng">Yoo Hyeun</span>
+            </li>
+            <li>
+                <span class="info-label">Pen Name</span>
+                <span class="info-val">Flowsophia (플로우소피아)</span>
+                <span class="info-eng">@flowsophia</span>
+            </li>
+            <li>
+                <span class="info-label">Specialties</span>
+                <span class="info-val">시인 / 철학자 / 예술가 / 물리학자 / 기업가 / 압출기술전문가 (팩티브코리아)</span>
+                <span class="info-eng">Poet / Philosopher / Artist / Physicist / Entrepreneur / Extrusion Technology Expert (Pactive Korea)</span>
+            </li>
+        </ul>
+
+        <h2>필명 'Flowsophia'의 의미 <span class="eng-h2">The Meaning of Flowsophia</span></h2>
+        <blockquote>
+            <p>Flow (흐름) + Sophia (지혜)</p>
+            <span class="kor-quote">"삶의 자연스러운 흐름 속에서 길어 올린 따뜻한 지혜"를 뜻합니다. 삶의 지혜가 물처럼 유연하게 흘러, 시라는 그릇을 통해 누군가의 마음에 부드럽게 가닿기를 바라는 진심을 담았습니다.</span>
+            <span class="eng-quote">It signifies "warm wisdom drawn from the natural flow of life." It carries the sincere hope that life's wisdom flows gently like water, reaching someone's heart softly through the vessel of poetry.</span>
+        </blockquote>
+
+        <h2>시 세계 및 철학 <span class="eng-h2">Poetic World & Philosophy</span></h2>
+        
+        <div class="philosophy-item">
+            <div class="philosophy-title">
+                조건 없는 사랑과 포용의 등대
+                <span class="philosophy-eng-title">A Lighthouse of Unconditional Love and Embrace</span>
+            </div>
+            <div class="philosophy-desc">세상의 미움, 두려움, 혐오, 공포와 같은 부정적인 감정을 비난하거나 외면하지 않습니다. 스스로 화해와 용기, 이해와 평온의 길을 찾을 수 있도록 묵묵히 빛을 비추어주는 등대를 노래합니다.</div>
+            <div class="philosophy-eng-desc">Rather than rebuking negative emotions like hatred or fear, my poetry sings of a lighthouse that silently shines a light, helping you find your own path to reconciliation, courage, and peace.</div>
+        </div>
+
+        <div class="philosophy-item">
+            <div class="philosophy-title">
+                마음 닿는 시의 영상 여정
+                <span class="philosophy-eng-title">A Video Journey of Poems Touching the Heart</span>
+            </div>
+            <div class="philosophy-desc">오프라인에서 사람들에게 조용한 위로를 전하던 걸음에서 나아가, 더 넓은 세상의 지치고 힘든 이들에게 따뜻한 목소리와 영상을 통해 소통을 이어갑니다.</div>
+            <div class="philosophy-eng-desc">Stepping beyond offering quiet comfort offline, I continue to communicate through warm voice and video to share light with weary souls in the wider world.</div>
+        </div>
+
+        <div class="contact-section">
+            <h3>문의 및 소통</h3>
+            <span class="eng-contact-title">Contact & Inquiries</span>
+            <p>강연, 시 기고 및 협업 관련 문의는 아래 링크를 통해 확인해 주시기 바랍니다.<br>
+            <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; color: #bfdbfe;">For lectures, poetry contributions, and collaborations, please visit the link below.</span></p>
+            <!-- 이메일 주소 대신 Contact.html로 연결되도록 수정된 부분 -->
+            <a href="Contact.html">문의 페이지로 이동하기 (Contact Page)</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Flowsophia (Hyeon Yoo). All rights reserved.</p>
+    </footer>
 </div>
 
 </body>
