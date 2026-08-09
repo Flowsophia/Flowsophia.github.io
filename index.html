@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>등대시인 유현 (Flowsophia) | Lighthouse Poet</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome 아이콘 사용을 위한 CDN 추가 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
@@ -226,47 +228,123 @@
             font-style: italic;
             line-height: 1.4;
         }
+        
+        /* 이미지 디자인과 정확히 일치하는 고급스러운 문의 및 소통 섹션 스타일 */
         .contact-section {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #111e38 100%);
             color: #ffffff;
-            padding: 40px;
-            border-radius: 16px;
+            padding: 50px 30px;
+            border-radius: 20px;
             text-align: center;
             margin-top: 60px;
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 15px 35px rgba(13, 27, 42, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.2); /* 은은한 골드빛 테두리 */
+        }
+        .contact-card-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 35px 20px;
+            margin-bottom: 35px;
+            box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.05);
         }
         .contact-section h3 {
-            margin: 0 0 5px 0;
-            font-size: 1.4rem;
-            font-weight: 600;
+            margin: 0 0 8px 0;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
         .contact-section .eng-contact-title {
             font-family: 'Cormorant Garamond', serif;
             display: block;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-style: italic;
-            margin-bottom: 20px;
-            color: #bfdbfe;
+            margin-bottom: 25px;
+            color: #cbd5e1;
             font-weight: 400;
         }
         .contact-section p {
             margin: 0 0 15px 0;
-            font-size: 1rem;
-            color: #e0e7ff;
+            font-size: 1.05rem;
+            color: #e2e8f0;
+            line-height: 1.6;
         }
-        .contact-section a {
+        .contact-section .eng-desc {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: #94a3b8;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+        .contact-section .card-link-icon {
+            font-size: 1.4rem;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .contact-section .card-link-text {
             color: #ffffff;
             text-decoration: none;
             font-weight: 700;
-            font-size: 1.4rem;
-            border-bottom: 1px solid rgba(255,255,255,0.4);
-            padding-bottom: 2px;
+            font-size: 1.3rem;
+            display: block;
+        }
+        .contact-section .card-link-subtext {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* 하단 추가 안내 문구 영역 */
+        .extra-contact-box {
+            margin-top: 30px;
+        }
+        .extra-contact-box p {
+            margin: 0 0 6px 0;
+            font-size: 1rem;
+            color: #f8fafc;
+            font-weight: 500;
+        }
+        .extra-contact-box .eng-extra {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 25px;
+        }
+        
+        /* 이미지와 똑같은 입체적 골드/화이트 그라데이션 버튼 */
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%);
+            color: #0f172a;
+            padding: 16px 36px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 25px rgba(254, 243, 199, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.8);
             transition: all 0.3s ease;
+            border: 1px solid rgba(212, 175, 55, 0.4);
         }
-        .contact-section a:hover {
-            color: #bfdbfe;
-            border-color: #bfdbfe;
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #ffffff 0%, #fde68a 100%);
+            box-shadow: 0 12px 30px rgba(253, 230, 138, 0.35);
         }
+        .contact-btn i {
+            color: #0f172a;
+            font-size: 1.1rem;
+        }
+
         footer {
             text-align: center;
             margin-top: 60px;
@@ -282,6 +360,7 @@
             h1 { font-size: 1.8rem; }
             .info-list li { flex-direction: column; }
             .info-label { margin-bottom: 5px; }
+            .contact-section { padding: 35px 20px; }
         }
     </style>
 </head>
@@ -289,9 +368,9 @@
 
 <div class="container">
     <header>
-        <!-- 추가된 이미지 섹션 -->
+        <!-- 이미지 섹션 -->
         <div class="hero-image-section">
-            <img src="Flowsophia .png" alt="Flowsophia 등대시인 유현">
+            <img src="Flowsophia.png" alt="Flowsophia 등대시인 유현">
         </div>
         
         <h1>등대시인 유현</h1>
@@ -306,7 +385,6 @@
     </header>
 
     <main>
-        <!-- (이하 내용 동일) -->
         <div class="video-section">
             <h3>🎥 시 낭송 영상 채널</h3>
             <span class="video-eng-title">Poetry Reading Video Channel</span>
@@ -363,12 +441,32 @@
             <div class="philosophy-eng-desc">Stepping beyond offering quiet comfort offline, I continue to communicate through warm voice and video to share light with weary souls in the wider world.</div>
         </div>
 
+        <!-- 이미신 디자인과 일치하도록 정교하게 구현된 문의 및 소통 섹션 -->
         <div class="contact-section">
             <h3>문의 및 소통</h3>
             <span class="eng-contact-title">Contact & Inquiries</span>
-            <p>강연, 시 기고 및 협업 관련 문의는 아래 이메일로 연락 주시기 바랍니다.<br>
-            <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; color: #bfdbfe;">For lectures, poetry contributions, and collaborations, please contact me via email.</span></p>
-            <a href="mailto:asiafield@msn.com">asiafield@msn.com</a>
+            
+            <p>강연, 시 기고 및 협업 관련 문의는<br>아래 링크를 통해 확인해 주시기 바랍니다.</p>
+            <p class="eng-desc">For lectures, poetry contributions,<br>and collaborations, please visit the link below.</p>
+            
+            <!-- 내부 카드 박스 -->
+            <div class="contact-card-box">
+                <a href="https://www.flowsophia.com/contact.html" style="text-decoration: none;">
+                    <span class="card-link-icon"><i class="fa-solid fa-envelope"></i></span>
+                    <span class="card-link-text">문의 페이지로 이동하기</span>
+                    <span class="card-link-subtext">Contact Page</span>
+                </a>
+            </div>
+
+            <!-- 하단 안내 문구 및 입체 버튼 영역 -->
+            <div class="extra-contact-box">
+                <p><i class="fa-solid fa-envelope" style="margin-right: 6px; font-size: 0.9rem;"></i> 궁금한 점이 있으시다면 문의 페이지로 이동해 주세요.</p>
+                <span class="eng-extra">Please visit our Get in Touch page if you have any questions.</span>
+                
+                <a href="https://www.flowsophia.com/contact.html" class="contact-btn">
+                    <i class="fa-solid fa-paper-plane"></i> Get in Touch
+                </a>
+            </div>
         </div>
     </main>
 
