@@ -1,381 +1,630 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>등대시인 유현 (Flowsophia) | Lighthouse Poet</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>FlowSophia - Get in Touch</title>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 부드럽고 친근한 폰트 (Plus Jakarta Sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Noto Sans KR', sans-serif;
-            line-height: 1.8;
-            color: #333333;
-            background-color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             margin: 0;
             padding: 0;
-            word-break: keep-all;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #2c3e50;
         }
-        .container {
-            max-width: 800px;
-            margin: 60px auto;
-            background: #ffffff;
-            padding: 60px 50px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.04);
-        }
-        header {
+
+        /* 메인 페이지 배경 안내용 스타일 (www.flowsophia.com 느낌 연출) */
+        .landing-content {
             text-align: center;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 40px;
+            padding: 20px;
+        }
+
+        .landing-content h1 {
+            font-size: 42px;
+            color: #2b4c7e;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .landing-content p {
+            font-size: 18px;
+            color: #555;
             margin-bottom: 30px;
         }
-        /* 이미지 섹션 추가 스타일 */
-        .hero-image-section {
-            margin-bottom: 40px;
-            text-align: center;
+
+        /* 우측 하단 고정 Get In Touch 플로팅 아이콘 버튼 */
+        .floating-contact-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #5c93df 0%, #3b76cc 100%);
+            color: white;
+            border: none;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(59, 118, 204, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            z-index: 998;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .hero-image-section img {
+
+        .floating-contact-btn:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 15px 30px rgba(59, 118, 204, 0.5);
+        }
+
+        /* 화면 전체를 덮는 모달 오버레이 */
+        .contact-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 700px;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.35s ease;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        h1 {
-            color: #1a365d;
-            font-size: 2.2rem;
-            margin: 0 0 5px 0;
+
+        .contact-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .contact-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 45px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 520px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .contact-modal-overlay.active .contact-container {
+            transform: translateY(0);
+        }
+
+        /* 닫기 버튼 (X 아이콘) */
+        .close-modal-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f1f5f9;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 16px;
+            color: #64748b;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .close-modal-btn:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        h2 {
+            margin: 0 0 10px 0;
+            color: #2b4c7e;
+            font-size: 32px;
             font-weight: 700;
             letter-spacing: -0.5px;
         }
-        .eng-title {
-            font-family: 'Cormorant Garamond', serif;
-            color: #4a5568;
-            font-size: 1.5rem;
-            font-weight: 400;
-            display: block;
-            margin-bottom: 25px;
-            font-style: italic;
-        }
+
         .subtitle {
-            color: #2d3748;
-            font-size: 1.1rem;
-            line-height: 1.7;
             margin: 0;
-            font-weight: 500;
-        }
-        .eng-subtitle {
-            font-family: 'Cormorant Garamond', serif;
-            display: block;
-            margin-top: 15px;
-            font-style: italic;
-            color: #718096;
-            font-size: 1.15rem;
-            line-height: 1.5;
-        }
-        h2 {
-            color: #2c5282;
-            font-size: 1.3rem;
-            border-left: 3px solid #2b6cb0;
-            padding-left: 15px;
-            margin-top: 50px;
-            margin-bottom: 25px;
-            font-weight: 700;
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-        }
-        .eng-h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
-            color: #a0aec0;
+            color: #7f8c8d;
+            font-size: 15px;
             font-weight: 400;
-            font-style: italic;
-            letter-spacing: 0.5px;
-        }
-        .info-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .info-list li {
-            margin-bottom: 15px;
-            font-size: 1.05rem;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: baseline;
-        }
-        .info-label {
-            font-weight: 600;
-            color: #4a5568;
-            width: 100px;
-            flex-shrink: 0;
-        }
-        .info-val {
-            color: #2d3748;
-            margin-right: 15px;
-        }
-        .info-eng {
-            font-family: 'Cormorant Garamond', serif;
-            color: #718096;
-            font-size: 1.1rem;
-            font-style: italic;
-        }
-        
-        /* Video Section Styles */
-        .video-section {
-            background-color: #fff5f5;
-            border: 1px solid #fed7d7;
-            border-radius: 12px;
-            padding: 30px;
-            margin: 40px 0;
-            text-align: center;
-        }
-        .video-section h3 {
-            color: #c53030;
-            margin: 0 0 10px 0;
-            font-size: 1.25rem;
-        }
-        .video-eng-title {
-            font-family: 'Cormorant Garamond', serif;
-            color: #e53e3e;
-            font-style: italic;
-            display: block;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-        .video-desc {
-            color: #4a5568;
-            margin-bottom: 10px;
-        }
-        .video-eng-desc {
-            font-family: 'Cormorant Garamond', serif;
-            color: #718096;
-            font-style: italic;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-        }
-        .youtube-btn {
-            display: inline-block;
-            background-color: #e53e3e;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.3s;
-            box-shadow: 0 4px 6px rgba(229, 62, 62, 0.2);
-        }
-        .youtube-btn:hover {
-            background-color: #c53030;
         }
 
-        blockquote {
-            background-color: #f7fafc;
-            border-left: 3px solid #63b3ed;
-            margin: 30px 0;
-            padding: 25px;
-            border-radius: 0 10px 10px 0;
+        .form-group {
+            margin-bottom: 24px;
         }
-        blockquote p {
-            margin: 0 0 10px 0;
-            font-weight: 600;
-            color: #2b6cb0;
-            font-size: 1.1rem;
-        }
-        blockquote .kor-quote {
-            color: #2d3748;
-            font-size: 1rem;
+
+        label {
             display: block;
-            margin-bottom: 10px;
-        }
-        blockquote .eng-quote {
-            font-family: 'Cormorant Garamond', serif;
-            display: block;
-            font-size: 1.1rem;
-            color: #718096;
-            font-style: italic;
-        }
-        .philosophy-item {
-            margin-bottom: 30px;
-        }
-        .philosophy-title {
-            font-weight: 700;
-            color: #2d3748;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            display: flex;
-            flex-direction: column;
-        }
-        .philosophy-eng-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 600;
-            color: #4a5568;
-            font-size: 1.15rem;
-            margin-top: 2px;
-        }
-        .philosophy-desc {
-            color: #4a5568;
-            font-size: 1rem;
             margin-bottom: 8px;
-        }
-        .philosophy-eng-desc {
-            font-family: 'Cormorant Garamond', serif;
-            color: #718096;
-            font-size: 1.1rem;
-            font-style: italic;
-            line-height: 1.4;
-        }
-        .contact-section {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            color: #ffffff;
-            padding: 40px;
-            border-radius: 16px;
-            text-align: center;
-            margin-top: 60px;
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
-        }
-        .contact-section h3 {
-            margin: 0 0 5px 0;
-            font-size: 1.4rem;
             font-weight: 600;
+            color: #34495e;
+            font-size: 14px;
+            letter-spacing: -0.2px;
         }
-        .contact-section .eng-contact-title {
-            font-family: 'Cormorant Garamond', serif;
-            display: block;
-            font-size: 1.2rem;
-            font-style: italic;
-            margin-bottom: 20px;
-            color: #bfdbfe;
-            font-weight: 400;
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 15px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #2c3e50;
+            background-color: #fcfdfe;
+            transition: all 0.25s ease;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02);
         }
-        .contact-section p {
-            margin: 0 0 15px 0;
-            font-size: 1rem;
-            color: #e0e7ff;
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #5c93df;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(92, 147, 223, 0.12), inset 0 1px 2px rgba(0, 0, 0, 0.01);
+            outline: none;
         }
-        .contact-section a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.4rem;
-            border-bottom: 1px solid rgba(255,255,255,0.4);
-            padding-bottom: 2px;
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237f8c8d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 14px;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+
+        .name-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .title-select {
+            flex: 0 0 110px;
+        }
+
+        .name-input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .mobile-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .country-code {
+            flex: 0 0 180px;
+        }
+
+        .mobile-number {
+            flex: 1;
+            min-width: 0;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 150px;
+            line-height: 1.5;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #5c93df 0%, #3b76cc 100%);
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(59, 118, 204, 0.25);
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 118, 204, 0.35);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        ::placeholder {
+            color: #a0aec0;
+            opacity: 1;
+        }
+
+        /* 커스텀 모달 팝업 스타일 */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
             transition: all 0.3s ease;
         }
-        .contact-section a:hover {
-            color: #bfdbfe;
-            border-color: #bfdbfe;
+
+        .custom-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
-        footer {
+
+        .custom-modal {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 380px;
             text-align: center;
-            margin-top: 60px;
-            font-size: 0.9rem;
-            color: #a0aec0;
-            font-family: 'Cormorant Garamond', serif;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
         }
-        @media (max-width: 600px) {
-            .container {
-                margin: 20px;
-                padding: 40px 25px;
-            }
-            h1 { font-size: 1.8rem; }
-            .info-list li { flex-direction: column; }
-            .info-label { margin-bottom: 5px; }
+
+        .custom-modal-overlay.active .custom-modal {
+            transform: translateY(0);
+        }
+
+        .custom-modal-icon {
+            font-size: 40px;
+            color: #f39c12;
+            margin-bottom: 15px;
+        }
+
+        .custom-modal-message {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .custom-modal-btn {
+            background: #3b76cc;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .custom-modal-btn:hover {
+            background: #2b4c7e;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <!-- 추가된 이미지 섹션 -->
-        <div class="hero-image-section">
-            <img src="Flowsophia .png" alt="Flowsophia 등대시인 유현">
-        </div>
-        
-        <h1>등대시인 유현</h1>
-        <span class="eng-title">Lighthouse Poet, Yoo Hyeun</span>
-        
-        <p class="subtitle">
-            "어두운 바다에서 길을 잃은 배들을 위해 묵묵히 빛을 비추는 등대처럼,<br>지치고 상처받은 마음들에 따뜻한 위로를 건넵니다."
-        </p>
-        <span class="eng-subtitle">
-            "Like a lighthouse silently guiding lost ships in the dark sea,<br>I offer warm comfort to weary and wounded hearts."
-        </span>
-    </header>
+    <!-- www.flowsophia.com 기본 화면 영역 -->
+    <div class="landing-content">
+        <h1>Welcome to FlowSophia</h1>
+        <p>Precision Innovation for Advanced Film Technologies</p>
+    </div>
 
-    <main>
-        <!-- (이하 내용 동일) -->
-        <div class="video-section">
-            <h3>🎥 시 낭송 영상 채널</h3>
-            <span class="video-eng-title">Poetry Reading Video Channel</span>
-            
-            <p class="video-desc">등대시인 유현의 목소리로 전하는 '마음 닿는 시'를 영상으로 만나보세요.<br>지친 마음에 잔잔한 위로가 되는 시 낭송을 유튜브 채널(@flowsophia)에서 공유합니다.</p>
-            <p class="video-eng-desc">Experience "poems touching the heart" delivered through the voice of Lighthouse Poet Yoo Hyeun.<br>We share comforting poetry readings on our YouTube channel (@flowsophia).</p>
-            
-            <a href="https://www.youtube.com/@flowsophia" target="_blank" class="youtube-btn">유튜브 채널 방문하기 (Visit YouTube)</a>
-        </div>
+    <!-- 우측 하단 Get In Touch 플로팅 아이콘 버튼 -->
+    <button class="floating-contact-btn" onclick="openContactModal()" title="Get in Touch">
+        <i class="fa-solid fa-headset"></i>
+    </button>
 
-        <h2>기본 정보 <span class="eng-h2">Profile</span></h2>
-        <ul class="info-list">
-            <li>
-                <span class="info-label">Author</span>
-                <span class="info-val">유현</span>
-                <span class="info-eng">Yoo Hyeun</span>
-            </li>
-            <li>
-                <span class="info-label">Pen Name</span>
-                <span class="info-val">Flowsophia (플로우소피아)</span>
-                <span class="info-eng">@flowsophia</span>
-            </li>
-            <li>
-                <span class="info-label">Specialties</span>
-                <span class="info-val">시인 / 철학자 / 예술가 / 물리학자 / 기업가 / 압출기술전문가 (팩티브코리아)</span>
-                <span class="info-eng">Poet / Philosopher / Artist / Physicist / Entrepreneur / Extrusion Technology Expert (Pactive Korea)</span>
-            </li>
-        </ul>
+    <!-- Get In Touch 모달 화면 (contact.html 오버레이 영역) -->
+    <div id="contactModalOverlay" class="contact-modal-overlay" onclick="handleOutsideClick(event)">
+        <div class="contact-container">
+            <!-- 닫기 버튼 -->
+            <button class="close-modal-btn" onclick="closeContactModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
 
-        <h2>필명 'Flowsophia'의 의미 <span class="eng-h2">The Meaning of Flowsophia</span></h2>
-        <blockquote>
-            <p>Flow (흐름) + Sophia (지혜)</p>
-            <span class="kor-quote">"삶의 자연스러운 흐름 속에서 길어 올린 따뜻한 지혜"를 뜻합니다. 삶의 지혜가 물처럼 유연하게 흘러, 시라는 그릇을 통해 누군가의 마음에 부드럽게 가닿기를 바라는 진심을 담았습니다.</span>
-            <span class="eng-quote">It signifies "warm wisdom drawn from the natural flow of life." It carries the sincere hope that life's wisdom flows gently like water, reaching someone's heart softly through the vessel of poetry.</span>
-        </blockquote>
-
-        <h2>시 세계 및 철학 <span class="eng-h2">Poetic World & Philosophy</span></h2>
-        
-        <div class="philosophy-item">
-            <div class="philosophy-title">
-                조건 없는 사랑과 포용의 등대
-                <span class="philosophy-eng-title">A Lighthouse of Unconditional Love and Embrace</span>
+            <div class="header-section">
+                <h2>Get in Touch</h2>
+                <p class="subtitle">Please feel free to drop us a message anytime!</p>
             </div>
-            <div class="philosophy-desc">세상의 미움, 두려움, 혐오, 공포와 같은 부정적인 감정을 비난하거나 외면하지 않습니다. 스스로 화해와 용기, 이해와 평온의 길을 찾을 수 있도록 묵묵히 빛을 비추어주는 등대를 노래합니다.</div>
-            <div class="philosophy-eng-desc">Rather than rebuking negative emotions like hatred or fear, my poetry sings of a lighthouse that silently shines a light, helping you find your own path to reconciliation, courage, and peace.</div>
-        </div>
 
-        <div class="philosophy-item">
-            <div class="philosophy-title">
-                마음 닿는 시의 영상 여정
-                <span class="philosophy-eng-title">A Video Journey of Poems Touching the Heart</span>
+            <form id="contactForm" onsubmit="sendEmail(event)">
+                <div class="form-group">
+                    <label for="subject">Inquiry Type/Topic</label>
+                    <input type="text" id="subject" name="subject" placeholder="e.g., General Inquiry, Partnership">
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Enter your full Name</label>
+                    <div class="name-group">
+                        <select id="titlePrefix" name="titlePrefix" class="title-select">
+                            <option value="Mr.">Mr.</option>
+                            <option value="Ms.">Ms.</option>
+                            <option value="Miss">Miss</option>
+                        </select>
+                        <input type="text" id="name" name="name" class="name-input" placeholder="Your name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Enter your phone number</label>
+                    <div class="mobile-group">
+                        <select id="countryCode" name="countryCode" class="country-code">
+                            <option value="+93">Afghanistan (+93)</option>
+                            <option value="+355">Albania (+355)</option>
+                            <option value="+213">Algeria (+213)</option>
+                            <option value="+54">Argentina (+54)</option>
+                            <option value="+61">Australia (+61)</option>
+                            <option value="+43">Austria (+43)</option>
+                            <option value="+880">Bangladesh (+880)</option>
+                            <option value="+32">Belgium (+32)</option>
+                            <option value="+55">Brazil (+55)</option>
+                            <option value="+1">Canada (+1)</option>
+                            <option value="+56">Chile (+56)</option>
+                            <option value="+86">China (+86)</option>
+                            <option value="+57">Colombia (+57)</option>
+                            <option value="+420">Czech Republic (+420)</option>
+                            <option value="+45">Denmark (+45)</option>
+                            <option value="+20">Egypt (+20)</option>
+                            <option value="+358">Finland (+358)</option>
+                            <option value="+33">France (+33)</option>
+                            <option value="+49">Germany (+49)</option>
+                            <option value="+30">Greece (+30)</option>
+                            <option value="+852">Hong Kong (+852)</option>
+                            <option value="+36">Hungary (+36)</option>
+                            <option value="+91">India (+91)</option>
+                            <option value="+62">Indonesia (+62)</option>
+                            <option value="+353">Ireland (+353)</option>
+                            <option value="+972">Israel (+972)</option>
+                            <option value="+39">Italy (+39)</option>
+                            <option value="+81">Japan (+81)</option>
+                            <option value="+60">Malaysia (+60)</option>
+                            <option value="+52">Mexico (+52)</option>
+                            <option value="+31">Netherlands (+31)</option>
+                            <option value="+64">New Zealand (+64)</option>
+                            <option value="+47">Norway (+47)</option>
+                            <option value="+92">Pakistan (+92)</option>
+                            <option value="+63">Philippines (+63)</option>
+                            <option value="+48">Poland (+48)</option>
+                            <option value="+351">Portugal (+351)</option>
+                            <option value="+40">Romania (+40)</option>
+                            <option value="+7">Russia (+7)</option>
+                            <option value="+966">Saudi Arabia (+966)</option>
+                            <option value="+65">Singapore (+65)</option>
+                            <option value="+27">South Africa (+27)</option>
+                            <option value="+82" selected>South Korea (+82)</option>
+                            <option value="+34">Spain (+34)</option>
+                            <option value="+46">Sweden (+46)</option>
+                            <option value="+41">Switzerland (+41)</option>
+                            <option value="+886">Taiwan (+886)</option>
+                            <option value="+66">Thailand (+66)</option>
+                            <option value="+90">Turkey (+90)</option>
+                            <option value="+380">Ukraine (+380)</option>
+                            <option value="+971">United Arab Emirates (+971)</option>
+                            <option value="+44">United Kingdom (+44)</option>
+                            <option value="+1">United States (+1)</option>
+                            <option value="+84">Vietnam (+84)</option>
+                        </select>
+                        <input type="text" id="mobile" name="mobile" class="mobile-number" placeholder="Phone number">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">eMail</label>
+                    <input type="email" id="email" name="email" placeholder="example@domain.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Send Message</span>
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 커스텀 모달 팝업 구조 -->
+    <div id="customModal" class="custom-modal-overlay">
+        <div class="custom-modal">
+            <div class="custom-modal-icon">
+                <i class="fa-solid fa-circle-exclamation"></i>
             </div>
-            <div class="philosophy-desc">오프라인에서 사람들에게 조용한 위로를 전하던 걸음에서 나아가, 더 넓은 세상의 지치고 힘든 이들에게 따뜻한 목소리와 영상을 통해 소통을 이어갑니다.</div>
-            <div class="philosophy-eng-desc">Stepping beyond offering quiet comfort offline, I continue to communicate through warm voice and video to share light with weary souls in the wider world.</div>
+            <div id="customModalMessage" class="custom-modal-message"></div>
+            <button class="custom-modal-btn" onclick="closeCustomModal()">OK</button>
         </div>
+    </div>
 
-        <div class="contact-section">
-            <h3>문의 및 소통</h3>
-            <span class="eng-contact-title">Contact & Inquiries</span>
-            <p>강연, 시 기고 및 협업 관련 문의는 아래 이메일로 연락 주시기 바랍니다.<br>
-            <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; color: #bfdbfe;">For lectures, poetry contributions, and collaborations, please contact me via email.</span></p>
-            <a href="mailto:asiafield@msn.com">asiafield@msn.com</a>
-        </div>
-    </main>
+    <script>
+        // 모달 열기/닫기 함수
+        function openContactModal() {
+            document.getElementById('contactModalOverlay').classList.add('active');
+        }
 
-    <footer>
-        <p>&copy; 2026 Flowsophia (Hyeon Yoo). All rights reserved.</p>
-    </footer>
-</div>
+        function closeContactModal() {
+            document.getElementById('contactModalOverlay').classList.remove('active');
+        }
+
+        // 모달 바깥 영역 클릭 시 닫기
+        function handleOutsideClick(event) {
+            if (event.target.id === 'contactModalOverlay') {
+                closeContactModal();
+            }
+        }
+
+        function showCustomModal(message, targetId) {
+            document.getElementById('customModalMessage').innerText = message;
+            document.getElementById('customModal').classList.add('active');
+            window.targetInputId = targetId;
+        }
+
+        function closeCustomModal() {
+            document.getElementById('customModal').classList.remove('active');
+            if (window.targetInputId) {
+                document.getElementById(window.targetInputId).focus();
+            }
+        }
+
+        function sendEmail(event) {
+            event.preventDefault();
+
+            const subject = document.getElementById('subject').value.trim();
+            const titlePrefix = document.getElementById('titlePrefix').value;
+            const name = document.getElementById('name').value.trim();
+            const countryCode = document.getElementById('countryCode').value;
+            const mobileNumber = document.getElementById('mobile').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!subject) {
+                showCustomModal('Oops! Please let us know the Inquiry Type or Topic.', 'subject');
+                return;
+            }
+            if (!name) {
+                showCustomModal('Oops! Please enter your name so we know who you are.', 'name');
+                return;
+            }
+            if (!mobileNumber) {
+                showCustomModal('Oops! Please provide your phone number to stay connected.', 'mobile');
+                return;
+            }
+            if (!email) {
+                showCustomModal('Oops! We need your eMail address to reply back to you.', 'email');
+                return;
+            }
+            if (!message) {
+                showCustomModal('Oops! Please write a short message before sending.', 'message');
+                return;
+            }
+
+            const fullMobile = `${countryCode} ${mobileNumber}`;
+            const recipient = "asiafield@msn.com";
+            
+            let salutation = "";
+            let introText = "";
+            let closingText = "";
+
+            switch(countryCode) {
+                case '+81': // 일본
+                    salutation = "担当者様%0D%0Aいつも大変お世話になっております。";
+                    introText = `私共は ${titlePrefix} ${name} と申します。%0D%0A%0D%0A${message}`;
+                    closingText = `敬具%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+49': // 독일
+                    salutation = "Sehr geehrte Damen und Herren,";
+                    introText = `Mein Name ist ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Mit freundlichen Grüßen,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+82': // 대한민국
+                    salutation = "관계자 분께,%0D%0A안녕하십니까,";
+                    introText = `저는 ${titlePrefix} ${name}입니다.%0D%0A%0D%0A${message}`;
+                    closingText = `감사합니다,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+86': // 중국
+                    salutation = "尊敬的负责人：%0D%0A您好！";
+                    introText = `我是 ${titlePrefix} ${name}。%0D%0A%0D%0A${message}`;
+                    closingText = `顺祝商祺！%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+33': // 프랑스
+                    salutation = "Madame, Monsieur,";
+                    introText = `Je me nomme ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+34': // 스페인
+                    salutation = "Estimado/a Señor/a,";
+                    introText = `Mi nombre es ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Atentamente,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+39': // 이탈리아
+                    salutation = "Gentile Signore/Signora,";
+                    introText = `Il mio nome è ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Cordiali saluti,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+7': // 러시아
+                    salutation = "Уважаемый господин / Уважаемая госпожа,";
+                    introText = `Меня зовут ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `С уважением,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+55': // 브라질 / 포르투갈
+                    salutation = "Prezado(a) Senhor(a),";
+                    introText = `Meu nome é ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Atenciosamente,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+84': // 베트남
+                    salutation = "Kính gửi Quý công ty,%0D%0AXin chào,";
+                    introText = `Tôi tên là ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Trân trọng,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+66': // 태국
+                    salutation = "เรียน ผู้เกี่ยวข้อง,%0D%0Aสวัสดีครับ/ค่ะ";
+                    introText = `กระผม/ดิฉันชื่อ ${titlePrefix} ${name} ครับ/ค่ะ%0D%0A%0D%0A${message}`;
+                    closingText = `ด้วยความเคารพอย่างสูง,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                case '+62': // 인도네시아
+                    salutation = "Kepada Yth. Bapak/Ibu,%0D%0ASelamat siang,";
+                    introText = `Nama saya adalah ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Hormat saya,%0D%0A${titlePrefix} ${name}`;
+                    break;
+                default: // 글로벌 표준 영어
+                    salutation = "Dear Sir or Madam,";
+                    introText = `My name is ${titlePrefix} ${name}.%0D%0A%0D%0A${message}`;
+                    closingText = `Best regards,%0D%0A${titlePrefix} ${name}`;
+                    break;
+            }
+
+            const bodyContent = `${salutation}%0D%0A%0D%0A${introText}%0D%0A%0D%0A${closingText}%0D%0A%0D%0A---%0D%0AMobile: ${fullMobile}%0D%0AeMail: ${email}`;
+            const emailSubject = `[From Get In Touch] ${subject}`;
+
+            window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(emailSubject)}&body=${bodyContent}`;
+        }
+    </script>
 
 </body>
 </html>
