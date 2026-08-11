@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get in Touch</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- 예쁜 손글씨 및 캘리그라피 느낌을 주는 한글 폰트(Bagel Fat One / Nanum Myeongjo) 추가 -->
+    <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Nanum+Myeongjo:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -21,7 +22,7 @@
         .envelope-container {
             background-color: #fff;
             padding: 40px;
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             max-width: 500px;
             width: 100%;
@@ -31,16 +32,33 @@
             background-size: 20px 20px;
         }
 
-        .illust-container {
+        /* 화사하고 다채로운 타이틀 디자인 영역 */
+        .title-banner {
             text-align: center;
             margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff0f3 0%, #fff9e6 50%, #e8f4fd 100%);
+            border-radius: 12px;
+            border: 1.5px dashed #f3c68f;
+            box-shadow: 0 4px 15px rgba(243, 198, 143, 0.2);
         }
 
-        .illust-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        .title-banner h1 {
+            font-family: 'Nanum Myeongjo', serif;
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b, #6a11cb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 6px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .title-banner p {
+            font-family: 'Nanum Myeongjo', serif;
+            font-size: 14px;
+            color: #8c7b75;
+            margin: 0;
         }
 
         h2 {
@@ -48,7 +66,7 @@
             color: #5d4037;
             text-align: center;
             margin-bottom: 25px;
-            font-size: 24px;
+            font-size: 22px;
         }
 
         .form-group { 
@@ -76,7 +94,7 @@
         }
 
         .submit-btn {
-            background: #8d6e63;
+            background: linear-gradient(135deg, #8d6e63, #6d4c41);
             color: white;
             border: none;
             padding: 16px;
@@ -91,20 +109,21 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
-            transition: background 0.2s;
+            transition: opacity 0.2s;
         }
 
         .submit-btn:hover { 
-            background: #6d4c41; 
+            opacity: 0.9; 
         }
     </style>
 </head>
 <body>
 
     <div class="envelope-container">
-        <!-- 서버 경로 문제를 원천 차단하기 위해 유니온 외부 이미지 URL 및 폴백 적용 -->
-        <div class="illust-container">
-            <img src="https://images.unsplash.com/photo-1516541196182-6bdb0516ed27?auto=format&fit=crop&w=800&q=80" alt="Blog Mail Image" onerror="this.src='./blogmail.png'">
+        <!-- 이미지 대신 들어간 화사하고 예쁜 '행복의 메일 박스' 타이틀 배너 -->
+        <div class="title-banner">
+            <h1>✨ 행복의 메일 박스 ✨</h1>
+            <p>소중한 마음을 담아 편지를 보내보세요</p>
         </div>
         
         <h2>마음을 전해주세요</h2>
@@ -152,7 +171,7 @@
             }
 
             const recipient = "asiafield@msn.com";
-            const emailSubject = `[편지 도착] ${subject}`;
+            const emailSubject = `[행복의 메일박스] ${subject}`;
             const bodyContent = `보내는 사람: ${titlePrefix} ${name}%0D%0A연락처: ${mobile}%0D%0A이메일: ${email}%0D%0A%0D%0A---%0D%0A%0D%0A${message}`;
 
             window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(emailSubject)}&body=${bodyContent}`;
