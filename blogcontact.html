@@ -102,9 +102,9 @@
 <body>
 
     <div class="envelope-container">
-        <!-- 이미지가 안정적으로 출력되도록 내장 처리된 우체통 일러스트 -->
+        <!-- 보내주신 우체통 일러스트 이미지 적용 -->
         <div class="illust-container">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" data-src="https://images.unsplash.com/photo-1516541196182-6bdb0516ed27" alt="Mailbox Illustration" id="mailImg">
+            <img src="https://lh3.googleusercontent.com/d/1000128305" alt="Mailbox Illustration" id="mailImg">
         </div>
         
         <h2>마음을 전해주세요</h2>
@@ -136,9 +136,6 @@
     </div>
 
     <script>
-        // 원본 이미지를 안전한 경로로 대체하여 즉시 로드
-        document.getElementById('mailImg').src = "https://images.unsplash.com/photo-1579208575657-c595a02538b7?auto=format&fit=crop&w=800&q=80";
-
         function sendEmail(event) {
             event.preventDefault();
             
