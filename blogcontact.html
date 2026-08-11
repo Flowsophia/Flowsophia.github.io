@@ -117,7 +117,6 @@
 <body>
 
     <div class="envelope-container">
-        <!-- 이미지 코드를 완전히 제거하고 예쁜 텍스트 배너로 교체 -->
         <div class="title-banner">
             <h1>💌 행복의 메일 박스 💌</h1>
             <p>소중한 마음을 담아 편지를 보내보세요</p>
@@ -125,53 +124,64 @@
         
         <h2>마음을 전해주세요</h2>
         
-        <form id="contactForm" onsubmit="sendEmail(event)">
+        <!-- Formspree 연동 (action 주소에 본인의 Form ID를 입력하세요) -->
+        <form id="contactForm" action="https://formspree.io/f/your_form_id" method="POST" onsubmit="handleFormSubmit(event)">
             <div class="form-group">
-                <input type="text" id="subject" placeholder="어떤 이야기를 나누고 싶으신가요? (문의 주제)">
+                <input type="text" name="subject" id="subject" placeholder="어떤 이야기를 나누고 싶으신가요? (문의 주제)" required>
             </div>
             <div class="form-group" style="display: flex; gap: 10px;">
-                <select id="titlePrefix" style="width: 90px;">
+                <select name="titlePrefix" id="titlePrefix" style="width: 90px;">
                     <option value="Mr.">Mr.</option>
                     <option value="Ms.">Ms.</option>
                 </select>
-                <input type="text" id="name" placeholder="보내시는 분 성함">
+                <input type="text" name="name" id="name" placeholder="보내시는 분 성함" required>
             </div>
             <div class="form-group">
-                <input type="text" id="mobile" placeholder="연락처 (예: 010-0000-0000)">
+                <input type="text" name="mobile" id="mobile" placeholder="연락처 (예: 010-0000-0000)">
             </div>
             <div class="form-group">
-                <input type="email" id="email" placeholder="답변받으실 이메일 주소">
+                <input type="email" name="email" id="email" placeholder="답변받으실 이메일 주소" required>
             </div>
             <div class="form-group">
-                <textarea id="message" rows="5" placeholder="이곳에 편안하게 메시지를 적어주세요..."></textarea>
+                <textarea name="message" id="message" rows="5" placeholder="이곳에 편안하게 메시지를 적어주세요..." required></textarea>
             </div>
-            <button type="submit" class="submit-btn">
+            <button type="submit" id="submitBtn" class="submit-btn">
                 <i class="fa-solid fa-paper-plane"></i> 마음 보내기
             </button>
         </form>
     </div>
 
     <script>
-        function sendEmail(event) {
+        async function handleFormSubmit(event) {
             event.preventDefault();
-            
-            const subject = document.getElementById('subject').value.trim();
-            const titlePrefix = document.getElementById('titlePrefix').value;
-            const name = document.getElementById('name').value.trim();
-            const mobile = document.getElementById('mobile').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const message = document.getElementById('message').value.trim();
+            const form = event.target;
+            const submitBtn = document.getElementById('submitBtn');
+            const data = new FormData(form);
 
-            if (!subject || !name || !email || !message) {
-                alert('빈칸 없이 내용을 정성껏 채워주세요!');
-                return;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 전송 중...';
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    alert('성공적으로 메시지가 전송되었습니다!');
+                    form.reset();
+                } else {
+                    alert('전송에 실패했습니다. 다시 시도해 주세요.');
+                }
+            } catch (error) {
+                alert('네트워크 오류가 발생했습니다.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> 마음 보내기';
             }
-
-            const recipient = "asiafield@msn.com";
-            const emailSubject = `[행복의 메일박스] ${subject}`;
-            const bodyContent = `보내는 사람: ${titlePrefix} ${name}%0D%0A연락처: ${mobile}%0D%0A이메일: ${email}%0D%0A%0D%0A---%0D%0A%0D%0A${message}`;
-
-            window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(emailSubject)}&body=${bodyContent}`;
         }
     </script>
 </body>
