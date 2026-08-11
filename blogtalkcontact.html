@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get in Touch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fdfaf5;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .envelope-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            background-image: radial-gradient(#e0dcd5 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .title-banner {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 22px;
+            background: linear-gradient(135deg, #fff0f3 0%, #fff9e6 50%, #e8f4fd 100%);
+            border-radius: 12px;
+            border: 1.5px dashed #f3c68f;
+            box-shadow: 0 4px 15px rgba(243, 198, 143, 0.2);
+        }
+
+        .title-banner h1 {
+            font-family: 'Nanum Myeongjo', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #d17a57;
+            margin: 0 0 6px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .title-banner p {
+            font-family: 'Nanum Myeongjo', serif;
+            font-size: 14px;
+            color: #8c7b75;
+            margin: 0;
+        }
+
+        h2 {
+            font-family: 'Nanum Myeongjo', serif;
+            color: #5d4037;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 22px;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #d7ccc8;
+            border-radius: 6px;
+            background: #fffcf8;
+            font-family: 'Nanum Myeongjo', serif;
+            font-size: 15px;
+            box-sizing: border-box;
+            color: #4e342e;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #8d6e63;
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.15);
+        }
+
+        .btn {
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 16px;
+            width: 100%;
+            border-radius: 6px;
+            font-family: 'Nanum Myeongjo', serif;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: opacity 0.2s;
+            border: none;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #8d6e63, #6d4c41);
+            color: white;
+            margin-top: 10px;
+        }
+
+        .kakao-btn {
+            background-color: #fee500;
+            color: #371d1e;
+            margin-top: 10px;
+        }
+
+        .btn:hover { opacity: 0.9; }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #8c7b75;
+            font-family: 'Nanum Myeongjo', serif;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-container">
+        <div class="title-banner">
+            <h1>💌 행복의 메일 박스 💌</h1>
+            <p>편하신 방법으로 소중한 마음을 전해주세요</p>
+        </div>
+        
+        <h2>어떤 방법으로 연락드릴까요?</h2>
+        
+        <!-- Web3Forms 연동 Form -->
+        <form action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="a703d188-3380-42bf-a43f-d698fed6af10">
+            <input type="hidden" name="subject" value="[블로그 문의] 새로운 메시지가 도착했습니다.">
+            
+            <div class="form-group">
+                <input type="text" name="inquiry_subject" placeholder="어떤 이야기를 나누고 싶으신가요? (문의 주제)" required>
+            </div>
+            <div class="form-group" style="display: flex; gap: 10px;">
+                <select name="titlePrefix" style="width: 90px;">
+                    <option value="Mr.">Mr.</option>
+                    <option value="Ms.">Ms.</option>
+                </select>
+                <input type="text" name="name" placeholder="보내시는 분 성함" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="mobile" placeholder="연락처 (예: 010-0000-0000)">
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="답변받으실 이메일 주소" required>
+            </div>
+            <div class="form-group">
+                <textarea name="message" rows="5" placeholder="이곳에 편안하게 메시지를 적어주세요..." required></textarea>
+            </div>
+            
+            <!-- 이메일 전송 버튼 -->
+            <button type="submit" class="btn submit-btn">
+                <i class="fa-solid fa-paper-plane"></i> 메일로 보내기
+            </button>
+        </form>
+
+        <div class="divider">또는</div>
+
+        <!-- 카카오톡 문의 버튼 -->
+        <a href="https://open.kakao.com/o/당신의오픈채팅링크" target="_blank" class="btn kakao-btn">
+            <i class="fa-solid fa-comment"></i> 카카오톡으로 바로 문의하기
+        </a>
+    </div>
+
+</body>
+</html>
