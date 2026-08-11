@@ -26,7 +26,8 @@
             max-width: 500px;
             width: 100%;
             position: relative;
-            background-image: radial-gradient(#e0dcd5 1px, transparent 1px);
+            background-image: 
+                radial-gradient(#e0dcd5 1px, transparent 1px);
             background-size: 20px 20px;
         }
 
@@ -37,6 +38,7 @@
             background: linear-gradient(135deg, #fff0f3 0%, #fff9e6 50%, #e8f4fd 100%);
             border-radius: 12px;
             border: 1.5px dashed #f3c68f;
+            box-shadow: 0 4px 15px rgba(243, 198, 143, 0.2);
         }
 
         .title-banner h1 {
@@ -45,6 +47,14 @@
             font-weight: 700;
             color: #d17a57;
             margin: 0 0 6px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .title-banner p {
+            font-family: 'Nanum Myeongjo', serif;
+            font-size: 14px;
+            color: #8c7b75;
+            margin: 0;
         }
 
         h2 {
@@ -55,7 +65,9 @@
             font-size: 22px;
         }
 
-        .form-group { margin-bottom: 18px; }
+        .form-group { 
+            margin-bottom: 18px; 
+        }
 
         input, select, textarea {
             width: 100%;
@@ -67,6 +79,14 @@
             font-size: 15px;
             box-sizing: border-box;
             color: #4e342e;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #8d6e63;
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.15);
         }
 
         .submit-btn {
@@ -85,6 +105,11 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
+            transition: opacity 0.2s;
+        }
+
+        .submit-btn:hover { 
+            opacity: 0.9; 
         }
     </style>
 </head>
@@ -98,25 +123,36 @@
         
         <h2>마음을 전해주세요</h2>
         
-        <form id="contactForm" onsubmit="sendEmail(event)">
+        <!-- Web3Forms 연동 Form (액세스 키 적용 완료) -->
+        <form action="https://api.web3forms.com/submit" method="POST">
+            
+            <!-- 액세스 키 설정 -->
+            <input type="hidden" name="access_key" value="a703d188-3380-42bf-a43f-d698fed6af10">
+            
+            <!-- 메일 제목 자동 설정 -->
+            <input type="hidden" name="subject" value="[블로그 문의] 새로운 메시지가 도착했습니다.">
+            
+            <!-- 전송 완료 후 이동할 페이지 (선택사항, 생략시 기본 완료 페이지로 이동) -->
+            <!-- <input type="hidden" name="redirect" value="https://web3forms.com/success"> -->
+
             <div class="form-group">
-                <input type="text" name="subject" id="subject" placeholder="어떤 이야기를 나누고 싶으신가요? (문의 주제)" required>
+                <input type="text" name="inquiry_subject" placeholder="어떤 이야기를 나누고 싶으신가요? (문의 주제)" required>
             </div>
             <div class="form-group" style="display: flex; gap: 10px;">
-                <select name="titlePrefix" id="titlePrefix" style="width: 90px;">
+                <select name="titlePrefix" style="width: 90px;">
                     <option value="Mr.">Mr.</option>
                     <option value="Ms.">Ms.</option>
                 </select>
-                <input type="text" name="name" id="name" placeholder="보내시는 분 성함" required>
+                <input type="text" name="name" placeholder="보내시는 분 성함" required>
             </div>
             <div class="form-group">
-                <input type="text" name="mobile" id="mobile" placeholder="연락처">
+                <input type="text" name="mobile" placeholder="연락처 (예: 010-0000-0000)">
             </div>
             <div class="form-group">
-                <input type="email" name="email" id="email" placeholder="답변받으실 이메일 주소" required>
+                <input type="email" name="email" placeholder="답변받으실 이메일 주소" required>
             </div>
             <div class="form-group">
-                <textarea name="message" id="message" rows="5" placeholder="이곳에 편안하게 메시지를 적어주세요..." required></textarea>
+                <textarea name="message" rows="5" placeholder="이곳에 편안하게 메시지를 적어주세요..." required></textarea>
             </div>
             <button type="submit" class="submit-btn">
                 <i class="fa-solid fa-paper-plane"></i> 마음 보내기
@@ -124,26 +160,5 @@
         </form>
     </div>
 
-    <script>
-        function sendEmail(event) {
-            event.preventDefault();
-
-            const subject = document.getElementById('subject').value;
-            const titlePrefix = document.getElementById('titlePrefix').value;
-            const name = document.getElementById('name').value;
-            const mobile = document.getElementById('mobile').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-
-            // 받는 사람 이메일 (여기에 본인의 이메일을 입력하세요)
-            const recipient = "asiafield@msn.com";
-            
-            const bodyContent = `보내는 분: ${titlePrefix} ${name}%0D%0A연락처: ${mobile}%0D%0A이메일: ${email}%0D%0A%0D%0A내용:%0D%0A${message}`;
-            
-            const mailtoLink = `mailto:${recipient}?subject=[Blog Inquiry] ${encodeURIComponent(subject)}&body=${bodyContent}`;
-            
-            window.location.href = mailtoLink;
-        }
-    </script>
 </body>
 </html>
