@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>등대시인 유현 (Flowsophia) | Lighthouse Poet</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome 아이콘 사용을 위한 CDN 추가 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -31,7 +30,6 @@
             padding-bottom: 40px;
             margin-bottom: 30px;
         }
-        /* 이미지 섹션 추가 스타일 */
         .hero-image-section {
             margin-bottom: 40px;
             text-align: center;
@@ -124,7 +122,6 @@
             font-style: italic;
         }
         
-        /* Video Section Styles */
         .video-section {
             background-color: #fff5f5;
             border: 1px solid #fed7d7;
@@ -228,8 +225,128 @@
             font-style: italic;
             line-height: 1.4;
         }
-        
-        /* 이미지 디자인과 정확히 일치하는 고급스러운 문의 및 소통 섹션 스타일 */
+
+        /* --- 추가: 모달 버튼 (도서 및 작가 소개) 스타일 --- */
+        .book-info-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 40px 0;
+            justify-content: center;
+        }
+        .open-modal-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .open-modal-btn:hover {
+            border-color: #2b6cb0;
+            color: #2b6cb0;
+            box-shadow: 0 6px 12px rgba(43, 108, 176, 0.1);
+            transform: translateY(-2px);
+        }
+        .open-modal-btn i {
+            color: #64748b;
+        }
+        .open-modal-btn:hover i {
+            color: #2b6cb0;
+        }
+
+        /* --- 모달(Modal) 오버레이 스타일 (모던 팝업) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(5px); /* 모던한 블러 효과 */
+            z-index: 9999;
+            display: none; /* 기본 숨김 */
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: #ffffff;
+            width: 90%;
+            max-width: 650px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 1.5rem;
+            color: #94a3b8;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .modal-close-btn:hover {
+            color: #1e293b;
+        }
+        .modal-title {
+            color: #1e293b;
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            font-weight: 700;
+        }
+        .modal-body h4 {
+            color: #2b6cb0;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .modal-body p {
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        .modal-poem-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .modal-poem-card h5 {
+            margin: 0 0 10px 0;
+            color: #1e293b;
+            font-size: 1.1rem;
+        }
+        .modal-poem-card p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* 연락처 섹션 */
         .contact-section {
             background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #111e38 100%);
             color: #ffffff;
@@ -238,7 +355,7 @@
             text-align: center;
             margin-top: 60px;
             box-shadow: 0 15px 35px rgba(13, 27, 42, 0.3);
-            border: 1px solid rgba(212, 175, 55, 0.2); /* 은은한 골드빛 테두리 */
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
         .contact-card-box {
             background: rgba(255, 255, 255, 0.04);
@@ -298,11 +415,7 @@
             margin-top: 4px;
             display: block;
         }
-
-        /* 하단 추가 안내 문구 영역 */
-        .extra-contact-box {
-            margin-top: 30px;
-        }
+        .extra-contact-box { margin-top: 30px; }
         .extra-contact-box p {
             margin: 0 0 6px 0;
             font-size: 1rem;
@@ -317,8 +430,6 @@
             display: block;
             margin-bottom: 25px;
         }
-        
-        /* 이미지와 똑같은 입체적 골드/화이트 그라데이션 버튼 */
         .contact-btn {
             display: inline-flex;
             align-items: center;
@@ -340,10 +451,6 @@
             background: linear-gradient(135deg, #ffffff 0%, #fde68a 100%);
             box-shadow: 0 12px 30px rgba(253, 230, 138, 0.35);
         }
-        .contact-btn i {
-            color: #0f172a;
-            font-size: 1.1rem;
-        }
 
         footer {
             text-align: center;
@@ -361,6 +468,7 @@
             .info-list li { flex-direction: column; }
             .info-label { margin-bottom: 5px; }
             .contact-section { padding: 35px 20px; }
+            .modal-content { padding: 25px; width: 95%; }
         }
     </style>
 </head>
@@ -368,7 +476,6 @@
 
 <div class="container">
     <header>
-        <!-- 이미지 섹션 -->
         <div class="hero-image-section">
             <img src="Flowsophia.png" alt="Flowsophia 등대시인 유현">
         </div>
@@ -421,6 +528,20 @@
             <span class="eng-quote">It signifies "warm wisdom drawn from the natural flow of life." It carries the sincere hope that life's wisdom flows gently like water, reaching someone's heart softly through the vessel of poetry.</span>
         </blockquote>
 
+        <!-- 새로 추가된 모달(팝업) 트리거 버튼 섹션 -->
+        <h2>시집 및 작가 소개 <span class="eng-h2">Publications & Author</span></h2>
+        <div class="book-info-section">
+            <button class="open-modal-btn" data-target="modal-author">
+                <i class="fa-solid fa-user-pen"></i> About the Author (저자 소개)
+            </button>
+            <button class="open-modal-btn" data-target="modal-reviews">
+                <i class="fa-solid fa-book-open"></i> Editorial Reviews (책 소개)
+            </button>
+            <button class="open-modal-btn" data-target="modal-poems">
+                <i class="fa-solid fa-feather"></i> 시 소개 (Poem Introductions)
+            </button>
+        </div>
+
         <h2>시 세계 및 철학 <span class="eng-h2">Poetic World & Philosophy</span></h2>
         
         <div class="philosophy-item">
@@ -441,7 +562,6 @@
             <div class="philosophy-eng-desc">Stepping beyond offering quiet comfort offline, I continue to communicate through warm voice and video to share light with weary souls in the wider world.</div>
         </div>
 
-        <!-- 이미신 디자인과 일치하도록 정교하게 구현된 문의 및 소통 섹션 -->
         <div class="contact-section">
             <h3>문의 및 소통</h3>
             <span class="eng-contact-title">Contact & Inquiries</span>
@@ -449,7 +569,6 @@
             <p>강연, 시 기고 및 협업 관련 문의는<br>아래 링크를 통해 확인해 주시기 바랍니다.</p>
             <p class="eng-desc">For lectures, poetry contributions,<br>and collaborations, please visit the link below.</p>
             
-            <!-- 내부 카드 박스 -->
             <div class="contact-card-box">
                 <a href="https://www.flowsophia.com/contact.html" style="text-decoration: none;">
                     <span class="card-link-icon"><i class="fa-solid fa-envelope"></i></span>
@@ -458,7 +577,6 @@
                 </a>
             </div>
 
-            <!-- 하단 안내 문구 및 입체 버튼 영역 -->
             <div class="extra-contact-box">
                 <p><i class="fa-solid fa-envelope" style="margin-right: 6px; font-size: 0.9rem;"></i> 궁금한 점이 있으시다면 문의 페이지로 이동해 주세요.</p>
                 <span class="eng-extra">Please visit our Get in Touch page if you have any questions.</span>
@@ -468,60 +586,170 @@
                 </a>
             </div>
         </div>
-    </main>
-
-        </main>
 
         <div class="poetic-notice-card" style="max-width: 650px; margin: 30px auto; padding: 24px 28px; background: linear-gradient(to bottom, #ffffff, #f8fafc); border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); font-family: 'Noto Serif KR', serif, sans-serif; text-align: left;">
-    
-    <!-- 한국어 영역 -->
-    <div style="margin-bottom: 16px;">
-        <div style="font-size: 13.5px; font-weight: 600; color: #334155; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-            <span style="font-size: 15px;">🕯️</span> 고요한 사색과 안내 (Notice)
+            <div style="margin-bottom: 16px;">
+                <div style="font-size: 13.5px; font-weight: 600; color: #334155; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                    <span style="font-size: 15px;">🕯️</span> 고요한 사색과 안내 (Notice)
+                </div>
+                <p style="font-size: 12.5px; color: #475569; line-height: 1.8; margin: 0 0 6px 0;">
+                    • <strong>운영 시간:</strong> 평일 09:00 ~ 17:00 (KST / 주말 및 공휴일 휴무)
+                </p>
+                <p style="font-size: 12.5px; color: #475569; line-height: 1.8; margin: 0;">
+                    • <strong>안내 말씀:</strong> 깊은 사색을 구상하거나 세미나 일정 등으로 인해, 때로는 답변이 다소 지연될 수 있는 점 따뜻한 양해를 부탁드립니다.
+                </p>
+            </div>
+            <div style="height: 1px; background-color: #e2e8f0; margin: 16px 0;"></div>
+            <div>
+                <div style="font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px;">
+                    [ English Guidance ]
+                </div>
+                <p style="font-size: 12px; color: #64748b; line-height: 1.7; margin: 0 0 4px 0;">
+                    • <strong>Operating Hours:</strong> Mon – Fri, 09:00 ~ 17:00 (KST / Closed on weekends & holidays)
+                </p>
+                <p style="font-size: 12px; color: #64748b; line-height: 1.7; margin: 0;">
+                    • <strong>Notice:</strong> Responses may be gently delayed during poetry contemplation or seminar schedules. Thank you for your patience.
+                </p>
+            </div>
         </div>
-        <p style="font-size: 12.5px; color: #475569; line-height: 1.8; margin: 0 0 6px 0;">
-            • <strong>운영 시간:</strong> 평일 09:00 ~ 17:00 (KST / 주말 및 공휴일 휴무)
-        </p>
-        <p style="font-size: 12.5px; color: #475569; line-height: 1.8; margin: 0;">
-            • <strong>안내 말씀:</strong> 깊은 사색을 구상하거나 세미나 일정 등으로 인해, 때로는 답변이 다소 지연될 수 있는 점 따뜻한 양해를 부탁드립니다.
-        </p>
-    </div>
-
-    <!-- 구분선 -->
-    <div style="height: 1px; background-color: #e2e8f0; margin: 16px 0;"></div>
-
-    <!-- 영문 영역 -->
-    <div>
-        <div style="font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px;">
-            [ English Guidance ]
-        </div>
-        <p style="font-size: 12px; color: #64748b; line-height: 1.7; margin: 0 0 4px 0;">
-            • <strong>Operating Hours:</strong> Mon – Fri, 09:00 ~ 17:00 (KST / Closed on weekends & holidays)
-        </p>
-        <p style="font-size: 12px; color: #64748b; line-height: 1.7; margin: 0;">
-            • <strong>Notice:</strong> Responses may be gently delayed during poetry contemplation or seminar schedules. Thank you for your patience.
-        </p>
-    </div>
-
-</div>
-
-    
-
-    
-</body>
-</html>
+    </main>
 
     <footer>
         <p>&copy; 2026 Flowsophia (Hyeon Yoo). All rights reserved.</p>
     </footer>
 </div>
 
-        <script>
-      (function(){var w=window;if(w.ChannelIO){return(window.console.error||window.console.log)('ChannelIO script included twice.');}var ch=function(){ch.c(arguments);};ch.q=[];ch.c=function(args){ch.q.push(args);};w.ChannelIO=ch;var s=document.createElement('script');s.type='text/javascript';s.async=true;s.src='https://cdn.channel.io/plugin/ch-plugin-web.js';var x=document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);})();
-      ChannelIO('boot', {
-        "pluginKey": "e1cd6f81-5903-4a1d-b362-b022ca5d05b2"
-      });
-    </script>
+<!-- ==========================================
+     모달(팝업) 콘텐츠 영역
+=========================================== -->
+
+<!-- 1. 저자 소개 모달 -->
+<div class="modal-overlay" id="modal-author">
+    <div class="modal-content">
+        <button class="modal-close-btn">&times;</button>
+        <h3 class="modal-title">About the Author <br><span style="font-size: 1.1rem; color: #64748b; font-weight: normal;">저자 소개</span></h3>
+        <div class="modal-body">
+            <h4>[English]</h4>
+            <p>CheongKwon Yu, who writes under the Korean pen name Yoo Hyeon and the English pen name Flowsophia, is a unique literary voice bridging the worlds of rigorous science, international industry, and deep philosophical introspection.</p>
+            <p>Born in 1970 and raised in the serene natural landscapes of Gapyeong, South Korea, he pursued a degree in Physics at Kyungnam University (1989-1994). His analytical mind naturally gravitated toward logic, analytical philosophy, and the philosophy of science, while his deep love for contemplation immersed him in the profound depths of Eastern philosophy.</p>
+            <p>Professionally, he entered the overseas trade division of HanDong Machinery and navigated the tumultuous era of the IMF financial crisis to establish a distinguished career in the plastics industry. Today, as a leading technical expert and the representative of Pactive Korea, he acts as an exclusive agent and collaborates extensively with engineers across the United States and Europe.</p>
+            <p>Yet, for Flowsophia, "Life itself is poetry, and life itself is art." He has lived within poetry since birth. Through hundreds of poems, he uses the central motifs of the sea, waves, ships, and lighthouses to express the beautiful agonies of human existence. In his works, he shares his life’s journey, offering readers a timeless exploration of humanity through the ultimate theme of love.</p>
+            
+            <h4>[Korean]</h4>
+            <p>유현(본명 유정권, 영문 필명 Flowsophia)은 정밀한 과학과 치열한 산업 현장, 그리고 깊은 철학적 사색의 세계를 넘나드는 시인이다.</p>
+            <p>1970년 경기도 가평의 자연 속에서 태어난 그는 1989년 경남대학교 물리학과에 입학하여 학문의 길을 걸었다. 논리학과 분석철학, 과학철학에 심취했던 철학도이자, 동양철학의 깊이에 매료된 사색가이기도 하다. 졸업 후 한동기계 해외무역부에 입사하며 산업계에 발을 들였고, IMF라는 시대의 격랑 속에서 플라스틱 압출 및 다층 필름 산업에 뛰어들었다. 현재는 팩티브코리아(Pactive Korea)를 이끌며 미국과 유럽의 수많은 기술인들과 교류하는 독보적인 산업 기술 전문가이자 독점 대리점 대표로 활동하고 있다.</p>
+            <p>그러나 그의 가슴속에는 언제나 "시란 삶이며, 삶 자체가 예술"이라는 신념이 자리하고 있었다. 태어난 순간부터 시 속에 살아왔다는 그는 삶의 모든 굴곡과 환희를 바다와 파도, 그리고 등대에 투영하여 수백 편의 시를 써 내려갔다. 유현 시인은 자신의 시를 통해 삶의 아름다움과 그 이면에 숨겨진 고뇌를 '사랑'이라는 보편적이고 위대한 주제로 세상에 전하고 있다.</p>
+        </div>
+    </div>
+</div>
+
+<!-- 2. 책 소개 모달 -->
+<div class="modal-overlay" id="modal-reviews">
+    <div class="modal-content">
+        <button class="modal-close-btn">&times;</button>
+        <h3 class="modal-title">Editorial Reviews <br><span style="font-size: 1.1rem; color: #64748b; font-weight: normal;">책 소개</span></h3>
+        <div class="modal-body">
+            <h4>[English]</h4>
+            <p><strong>"A solitary light in the deepest darkness, a silent testament to love."</strong></p>
+            <p>In this poignant collection of poetry by Flowsophia (Yoo Hyeon), the lighthouse is not merely a structure of bricks and light; it is a profound metaphor for unconditional love, silent endurance, and the beautiful agonies of life.</p>
+            <p>Written by a poet who has spent his life navigating the fierce, exact world of physics and industrial engineering, these poems offer a striking contrast—a deeply emotional and philosophical journey into the human heart. From the Lighthouse in the Mountain that retreats to the peaks to quietly watch over the sea, to the Lighthouse in the Desert that shatters its own bones to become sand for the waves that never arrive, Flowsophia paints breathtaking imagery of sacrifice and longing.</p>
+            <p>This collection is a sanctuary for anyone who has ever loved profoundly, endured silently, or navigated the storms of life. Through the relentless waves of hatred, fear, and indifference, Flowsophia's lighthouse stands firm, proving that even as we are broken by the tides, love is the only compass we leave behind in the deep blue heart of the sea.</p>
+            
+            <h4>[Korean]</h4>
+            <p><strong>"가장 깊은 어둠 속에서 빛나는 고독, 사랑에 대한 묵묵한 증명."</strong></p>
+            <p>등대시인 유현(Flowsophia)의 이번 시집에서 '등대'는 단순한 불빛이 아닙니다. 그것은 조건 없는 사랑, 침묵의 인내, 그리고 삶이 안겨주는 아름다운 고뇌에 대한 깊은 은유입니다.</p>
+            <p>물리학과 철학을 탐구하고, 치열한 글로벌 산업 현장의 최전선에서 평생을 개척해 온 저자는 가장 차갑고 이성적인 세계 속에서 길어 올린 가장 뜨겁고 서정적인 고백을 이 시집에 담아냈습니다. 바다를 너무 사랑해 스스로 산으로 올라간 등대, 닿지 않는 파도를 위해 제 몸을 부수어 모래가 되는 사막의 등대까지. 시인은 자기 자신을 깎아내면서도 타인의 길을 밝히는 등대의 숙명을 통해 진정한 사랑의 서사를 완성합니다.</p>
+            <p>미움과 두려움, 무관심의 폭풍우 속에서도 묵묵히 빛을 비추며 화해와 용기의 길을 안내하는 이 시집은, 삶의 거친 파도 위를 위태롭게 항해하는 모든 이들의 영혼을 따뜻하게 안아줄 쉼터가 될 것입니다.</p>
+        </div>
+    </div>
+</div>
+
+<!-- 3. 시 소개 모달 -->
+<div class="modal-overlay" id="modal-poems">
+    <div class="modal-content">
+        <button class="modal-close-btn">&times;</button>
+        <h3 class="modal-title">Poem Introductions <br><span style="font-size: 1.1rem; color: #64748b; font-weight: normal;">시 소개</span></h3>
+        <div class="modal-body">
+            <div class="modal-poem-card">
+                <h5>1. 산으로 간 등대 (The Lighthouse That Fled to the Mountain)</h5>
+                <p>사랑의 대상인 바다를 너무나 깊이 사랑한 나머지, 오히려 바다에게서 멀어져 산꼭대기로 향한 등대의 역설적인 사랑을 그립니다. 동양철학의 '비움'과 사색을 통해 깨달은 관조의 태도를 투영합니다.</p>
+            </div>
+            <div class="modal-poem-card">
+                <h5>2. 사막의 등대 (The Lighthouse in the Desert)</h5>
+                <p>메마른 사막 한가운데서 언젠가 다가올 파도를 위해 자신의 뼈를 깎아 모래알을 만드는 등대의 헌신입니다. 척박한 산업 개척지에서 고난을 두려워하지 않고 길을 만들어 온 치열한 삶의 궤적과 맞닿아 있습니다.</p>
+            </div>
+            <div class="modal-poem-card">
+                <h5>3. 등대의 사랑의 서약 (The Lighthouse’s Vow of Love)</h5>
+                <p>어떠한 시련 앞에서도 결코 불빛을 끄지 않겠다는 영원한 맹세입니다. 소통의 장벽과 위기 앞에서도 결코 흔들리지 않았던 굳건한 신념과 책임감을 상징합니다.</p>
+            </div>
+            <div class="modal-poem-card">
+                <h5>4. 등대의 갈망 (The Lighthouse’s Yearning)</h5>
+                <p>사랑의 증명을 위해서라면 자신의 존재가 부서지는 것조차 갈망하는 등대의 투신을 보여줍니다. 인간 존재의 본질인 '사랑'을 증명하기 위해 기꺼이 온몸을 던져 세상을 겪어낸 치열한 생명력입니다.</p>
+            </div>
+            <div class="modal-poem-card">
+                <h5>5. 등대, 빛과 선율의 고백 (The Lighthouse, A Confession of Light and Melody)</h5>
+                <p>파도의 '떨림'과 빛의 '직진성'이라는 물리학적 현상을 예술과 사랑의 언어로 치환하여 차가운 과학의 눈으로 세상을 가장 따뜻하게 해석해 내는 고유한 정체성을 보여줍니다.</p>
+            </div>
+            <div class="modal-poem-card">
+                <h5>6. 등대, 멈추지 않는 기다림 (The Lighthouse, Unceasing Waiting)</h5>
+                <p>부정적인 감정들을 꾸짖지 않고 그저 묵묵히 빛을 비추어 대상이 스스로 길을 찾도록 돕는 현자의 태도이자 성숙한 리더십의 포용력을 이야기합니다.</p>
+            </div>
+            <div class="modal-poem-card">
+                <h5>7. 일깨우는 바람, 견고한 등대의 빛 (Awakening Wind, The Solid Light)</h5>
+                <p>안주하려는 마음을 바람이 일깨우고, 다시 한번 끝없이 남김없이 빛을 비추겠다는 다짐을 새롭게 합니다. 늘 깨어있는 의식으로 새로운 도전을 마주하는 끝나지 않은 여정입니다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 모달 제어용 JavaScript -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const modalBtns = document.querySelectorAll(".open-modal-btn");
+        const closeBtns = document.querySelectorAll(".modal-close-btn");
+        const overlays = document.querySelectorAll(".modal-overlay");
+
+        // 모달 열기
+        modalBtns.forEach(btn => {
+            btn.addEventListener("click", function() {
+                const targetId = this.getAttribute("data-target");
+                const targetModal = document.getElementById(targetId);
+                if(targetModal) {
+                    targetModal.classList.add("active");
+                    document.body.style.overflow = "hidden"; // 배경 스크롤 방지
+                }
+            });
+        });
+
+        // 닫기 버튼으로 모달 닫기
+        closeBtns.forEach(btn => {
+            btn.addEventListener("click", function() {
+                const modal = this.closest(".modal-overlay");
+                if(modal) {
+                    modal.classList.remove("active");
+                    document.body.style.overflow = ""; // 배경 스크롤 복구
+                }
+            });
+        });
+
+        // 배경(오버레이) 클릭 시 모달 닫기
+        overlays.forEach(overlay => {
+            overlay.addEventListener("click", function(e) {
+                if(e.target === this) {
+                    this.classList.remove("active");
+                    document.body.style.overflow = "";
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    (function(){var w=window;if(w.ChannelIO){return(window.console.error||window.console.log)('ChannelIO script included twice.');}var ch=function(){ch.c(arguments);};ch.q=[];ch.c=function(args){ch.q.push(args);};w.ChannelIO=ch;var s=document.createElement('script');s.type='text/javascript';s.async=true;s.src='https://cdn.channel.io/plugin/ch-plugin-web.js';var x=document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);})();
+    ChannelIO('boot', {
+    "pluginKey": "e1cd6f81-5903-4a1d-b362-b022ca5d05b2"
+    });
+</script>
 
 </body>
 </html>
