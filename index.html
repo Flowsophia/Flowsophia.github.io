@@ -267,9 +267,9 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(5px); /* 모던한 블러 효과 */
+            backdrop-filter: blur(5px);
             z-index: 9999;
-            display: none; /* 기본 숨김 */
+            display: none; 
             align-items: center;
             justify-content: center;
             opacity: 0;
@@ -292,6 +292,10 @@
             transform: translateY(20px);
             transition: transform 0.3s ease;
         }
+        /* 시 모달창은 내용을 위해 더 넓게 설정 */
+        #modal-poems .modal-content {
+            max-width: 850px;
+        }
         .modal-overlay.active .modal-content {
             transform: translateY(0);
         }
@@ -305,6 +309,7 @@
             border: none;
             cursor: pointer;
             transition: color 0.2s;
+            z-index: 10;
         }
         .modal-close-btn:hover {
             color: #1e293b;
@@ -329,22 +334,42 @@
             line-height: 1.7;
             margin-bottom: 15px;
         }
-        .modal-poem-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+
+        /* --- 시 목록 및 상세 보기 전용 스타일 --- */
+        .poem-grid { display: flex; flex-direction: column; gap: 12px; }
+        .poem-list-card { 
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 24px; background: #f8fafc; border: 1px solid #e2e8f0;
+            border-radius: 12px; cursor: pointer; transition: all 0.2s ease;
         }
-        .modal-poem-card h5 {
-            margin: 0 0 10px 0;
-            color: #1e293b;
-            font-size: 1.1rem;
+        .poem-list-card:hover {
+            background: #ffffff; border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transform: translateX(5px);
         }
-        .modal-poem-card p {
-            margin: 0;
-            font-size: 0.95rem;
+        .poem-number { font-size: 1.2rem; font-weight: 700; color: #94a3b8; margin-right: 20px; font-family: 'Cormorant Garamond', serif; }
+        .poem-titles { flex: 1; display: flex; flex-direction: column; }
+        .poem-titles strong { color: #1e293b; font-size: 1.1rem; }
+        .poem-titles span { color: #64748b; font-size: 0.95rem; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+        
+        .back-btn { 
+            background: none; border: none; color: #2b6cb0; font-weight: 600; font-size: 1rem; 
+            cursor: pointer; padding: 0; margin-bottom: 25px; display: inline-flex; align-items: center; gap: 8px;
         }
+        .back-btn:hover { text-decoration: underline; }
+        .detail-title { text-align: center; font-size: 1.6rem; color: #1e293b; margin-top: 0; margin-bottom: 30px; font-weight: 700; }
+        .detail-title span { display: block; font-size: 1.2rem; color: #64748b; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; margin-top: 5px; }
+        .detail-intro { background: #f1f5f9; padding: 25px; border-radius: 12px; margin-bottom: 40px; border-left: 4px solid #94a3b8; }
+        .detail-intro p { margin: 0 0 12px 0; font-size: 0.95rem; line-height: 1.7; color: #334155;}
+        .detail-intro p:last-child { margin: 0; }
+        .detail-intro strong { color: #1e293b; }
+        
+        .detail-poems { display: flex; flex-direction: column; gap: 40px; }
+        @media (min-width: 768px) {
+            .detail-poems { flex-direction: row; gap: 30px; }
+            .poem-column { flex: 1; }
+        }
+        .poem-column h5 { margin: 0 0 20px 0; color: #475569; font-size: 1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; text-align: center; }
+        .poem-content { white-space: pre-wrap; font-size: 1.05rem; line-height: 2.2; color: #334155; }
+        .eng-font { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; line-height: 1.8; }
 
         /* 연락처 섹션 */
         .contact-section {
@@ -528,7 +553,7 @@
             <span class="eng-quote">It signifies "warm wisdom drawn from the natural flow of life." It carries the sincere hope that life's wisdom flows gently like water, reaching someone's heart softly through the vessel of poetry.</span>
         </blockquote>
 
-        <!-- 새로 추가된 모달(팝업) 트리거 버튼 섹션 -->
+        <!-- 모달(팝업) 트리거 버튼 섹션 -->
         <h2>시집 및 작가 소개 <span class="eng-h2">Publications & Author</span></h2>
         <div class="book-info-section">
             <button class="open-modal-btn" data-target="modal-author">
@@ -538,7 +563,7 @@
                 <i class="fa-solid fa-book-open"></i> Editorial Reviews (책 소개)
             </button>
             <button class="open-modal-btn" data-target="modal-poems">
-                <i class="fa-solid fa-feather"></i> 시 소개 (Poem Introductions)
+                <i class="fa-solid fa-feather"></i> 시 소개 및 원문 (Poem Introductions & Texts)
             </button>
         </div>
 
@@ -664,40 +689,740 @@
     </div>
 </div>
 
-<!-- 3. 시 소개 모달 -->
+<!-- 3. 시 소개 및 상세 보기 모달 -->
 <div class="modal-overlay" id="modal-poems">
     <div class="modal-content">
         <button class="modal-close-btn">&times;</button>
-        <h3 class="modal-title">Poem Introductions <br><span style="font-size: 1.1rem; color: #64748b; font-weight: normal;">시 소개</span></h3>
-        <div class="modal-body">
-            <div class="modal-poem-card">
-                <h5>1. 산으로 간 등대 (The Lighthouse That Fled to the Mountain)</h5>
-                <p>사랑의 대상인 바다를 너무나 깊이 사랑한 나머지, 오히려 바다에게서 멀어져 산꼭대기로 향한 등대의 역설적인 사랑을 그립니다. 동양철학의 '비움'과 사색을 통해 깨달은 관조의 태도를 투영합니다.</p>
+        
+        <div class="modal-body" style="padding-top: 10px;">
+            
+            <!-- (A) 시 목록 뷰 (List View) -->
+            <div id="poem-list-view">
+                <h3 class="modal-title">Poem Introductions & Texts <br><span style="font-size: 1.1rem; color: #64748b; font-weight: normal;">시 소개 및 원문</span></h3>
+                <p style="margin-bottom: 25px; color:#475569; line-height: 1.6;">원하시는 시를 선택하시면 상세한 국문/영문 소개와 시 원문을 함께 감상하실 수 있습니다.<br><span style="font-family: 'Cormorant Garamond', serif; font-style: italic; color: #94a3b8; font-size: 1.05rem;">Select a poem below to view its introduction and text in both Korean and English.</span></p>
+                
+                <div class="poem-grid">
+                    <div class="poem-list-card" data-poem="1">
+                        <div style="display:flex; align-items:center;">
+                            <span class="poem-number">01</span>
+                            <div class="poem-titles">
+                                <strong>산으로 간 등대</strong>
+                                <span>The Lighthouse That Fled to the Mountain</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="color: #cbd5e1;"></i>
+                    </div>
+                    <div class="poem-list-card" data-poem="2">
+                        <div style="display:flex; align-items:center;">
+                            <span class="poem-number">02</span>
+                            <div class="poem-titles">
+                                <strong>사막의 등대</strong>
+                                <span>The Lighthouse in the Desert</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="color: #cbd5e1;"></i>
+                    </div>
+                    <div class="poem-list-card" data-poem="3">
+                        <div style="display:flex; align-items:center;">
+                            <span class="poem-number">03</span>
+                            <div class="poem-titles">
+                                <strong>등대의 사랑의 서약</strong>
+                                <span>The Lighthouse’s Vow of Love</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="color: #cbd5e1;"></i>
+                    </div>
+                    <div class="poem-list-card" data-poem="4">
+                        <div style="display:flex; align-items:center;">
+                            <span class="poem-number">04</span>
+                            <div class="poem-titles">
+                                <strong>등대의 갈망</strong>
+                                <span>The Lighthouse’s Yearning</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="color: #cbd5e1;"></i>
+                    </div>
+                    <div class="poem-list-card" data-poem="5">
+                        <div style="display:flex; align-items:center;">
+                            <span class="poem-number">05</span>
+                            <div class="poem-titles">
+                                <strong>등대, 빛과 선율의 고백</strong>
+                                <span>The Lighthouse, A Confession of Light and Melody</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="color: #cbd5e1;"></i>
+                    </div>
+                    <div class="poem-list-card" data-poem="6">
+                        <div style="display:flex; align-items:center;">
+                            <span class="poem-number">06</span>
+                            <div class="poem-titles">
+                                <strong>등대, 멈추지 않는 기다림</strong>
+                                <span>The Lighthouse, Unceasing Waiting</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="color: #cbd5e1;"></i>
+                    </div>
+                    <div class="poem-list-card" data-poem="7">
+                        <div style="display:flex; align-items:center;">
+                            <span class="poem-number">07</span>
+                            <div class="poem-titles">
+                                <strong>일깨우는 바람, 견고한 등대의 빛</strong>
+                                <span>Awakening Wind, The Solid Light of the Lighthouse</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="color: #cbd5e1;"></i>
+                    </div>
+                </div>
             </div>
-            <div class="modal-poem-card">
-                <h5>2. 사막의 등대 (The Lighthouse in the Desert)</h5>
-                <p>메마른 사막 한가운데서 언젠가 다가올 파도를 위해 자신의 뼈를 깎아 모래알을 만드는 등대의 헌신입니다. 척박한 산업 개척지에서 고난을 두려워하지 않고 길을 만들어 온 치열한 삶의 궤적과 맞닿아 있습니다.</p>
+
+            <!-- (B) 개별 시 상세 뷰 (Detail Views 1~7) -->
+            
+            <!-- Poem 1 -->
+            <div id="poem-detail-1" class="poem-detail-view" style="display:none;">
+                <button class="back-btn"><i class="fa-solid fa-arrow-left"></i> 목록으로 (Back to List)</button>
+                <h4 class="detail-title">산으로 간 등대<br><span>The Lighthouse That Fled to the Mountain</span></h4>
+                
+                <div class="detail-intro">
+                    <p><strong>[Korean]</strong> 이 시는 사랑의 대상인 바다를 너무나 깊이 사랑한 나머지, 오히려 바다에게서 멀어져 산꼭대기로 향한 등대의 역설적인 사랑을 그립니다. 치열한 산업 현장과 기계의 굉음 속에서 한평생을 보낸 작가가 동양철학의 '비움'과 사색을 통해 깨달은 관조의 태도를 투영합니다.</p>
+                    <p style="font-family: 'Cormorant Garamond', serif; font-size:1.05rem;"><strong>[English]</strong> This poem portrays the paradoxical love of a lighthouse that retreats to a mountain peak because it loves the sea too much. It reflects the contemplative attitude the author—who has spent his life amidst the roaring machinery of the industrial frontline—achieved through Eastern philosophy and deep introspection.</p>
+                </div>
+                
+                <div class="detail-poems">
+                    <div class="poem-column">
+                        <h5>[ 한글 원문 ]</h5>
+                        <div class="poem-content">새벽의 파도가
+마지막 발목을 잡던 아침,
+등대는 비로소
+낡은 렌즈를 닦고 길을 떠났습니다.
+
+바다를 버린 것이 아니라
+바다를 너무 많이 사랑해서
+제 몸을 태우던 불꽃을 잠재우러 산으로 길을 떠났습니다.
+
+밤마다 수평선을 뚫고
+밀려오는 바다에 대한 그리움은
+날카로운 유리 조각이 되어
+등대 빛의 눈동자를 찔렀습니다.
+
+닿을 수 없는 곳을 보며 제 살을 깎아 길을 밝히는 일은
+차라리 두 눈을 잃고 싶을 만큼 시린 형벌이었습니다.
+
+이제 등대는 산의 꼭대기에 서서
+볼 수 있으나
+보이지 않는 거리에서
+바다를 읽습니다.
+
+파도 소리에 마음을 젖지 않아도 되고,
+배들의 행복을 빛에 담아 원하지 않아도 되는 침묵의 높은 언덕.
+
+등대는 이제 빛을 끄고,
+한눈에 굳은살처럼 박힌 그리움을
+산안개로 덮기로 했습니다.
+
+이곳은 바다로부터 가장 멀어 보이지만,
+사실은 가장 깊은 곳에서
+바다의 숨소리를 듣는 자리.
+
+등대는 떠난 것이 아닌,
+가장 아픔의 빛의 거리를 두고서야,
+등대는 비로소
+바다를 온전히 놓아주는 법을 배우는 중입니다.
+
+마음이 된 산 위의 등대는
+구름 속 산
+파도 속 바다
+말을 되뇌고 되뇝니다.</div>
+                    </div>
+                    <div class="poem-column">
+                        <h5>[ English ]</h5>
+                        <div class="poem-content eng-font">On the morning the dawn waves
+tugged at its ankles for the very last time,
+the lighthouse finally
+wiped its weary lens and set forth.
+
+It did not abandon the sea;
+rather, loving the ocean too deeply,
+it climbed the mountain to silence the flame
+that had been burning its own body.
+
+Night after night, the longing for the sea
+that surged past the horizon
+turned into sharp shards of glass,
+piercing the glowing eyes of the lighthouse.
+
+To carve away its own flesh to light the way,
+staring out into the unreachable—
+it was a punishment so cold
+it wished it could tear out its own eyes.
+
+Now, standing at the summit,
+the lighthouse reads the sea
+from a distance where it can see,
+yet remains unseen.
+
+A high hill of silence,
+where its heart need no longer be drenched by the sound of waves,
+where it need no longer cast wishes for the ships' safe return into its beams.
+
+The lighthouse has now extinguished its light,
+choosing to drape the mountain mist
+over the longing calloused in its gaze.
+
+This place may seem the furthest from the ocean,
+but in truth, it is the seat
+where one hears the sea's breath from its absolute depths.
+
+The lighthouse has not left.
+Only by keeping this agonizing distance of light
+is it finally learning
+how to entirely let the ocean go.
+
+Becoming nothing but a mind, the lighthouse on the mountain
+murmurs and murmurs again—
+the mountain within the clouds,
+the sea within the waves.</div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-poem-card">
-                <h5>3. 등대의 사랑의 서약 (The Lighthouse’s Vow of Love)</h5>
-                <p>어떠한 시련 앞에서도 결코 불빛을 끄지 않겠다는 영원한 맹세입니다. 소통의 장벽과 위기 앞에서도 결코 흔들리지 않았던 굳건한 신념과 책임감을 상징합니다.</p>
+
+            <!-- Poem 2 -->
+            <div id="poem-detail-2" class="poem-detail-view" style="display:none;">
+                <button class="back-btn"><i class="fa-solid fa-arrow-left"></i> 목록으로 (Back to List)</button>
+                <h4 class="detail-title">사막의 등대<br><span>The Lighthouse in the Desert</span></h4>
+                <div class="detail-intro">
+                    <p><strong>[Korean]</strong> 메마른 사막 한가운데서 언젠가 다가올 파도를 위해 자신의 뼈를 깎아 모래알을 만드는 등대의 기다림과 헌신입니다. IMF라는 시대적 격랑과 척박한 산업 개척지에서 고난을 두려워하지 않고 자신의 모든 것을 걸어 길을 만들어 온 작가의 치열한 삶의 궤적과 맞닿아 있습니다.</p>
+                    <p style="font-family: 'Cormorant Garamond', serif; font-size:1.05rem;"><strong>[English]</strong> Standing in a barren desert, the lighthouse grinds its own bones into sand to pave a path for the tide that may one day arrive. This resonates with the author's fierce trajectory through the unforgiving frontiers of industry and the turbulent era of the IMF crisis.</p>
+                </div>
+                <div class="detail-poems">
+                    <div class="poem-column">
+                        <h5>[ 한글 원문 ]</h5>
+                        <div class="poem-content">홀로 박힌 등대, 
+사막 한가운데
+발치엔 끝을 알 수 없는 
+모래의 바다가 굽이치고
+당신이라는 이름의 파도는
+단 한 번도 
+이를 적시지 않은 채 
+지평선으로 
+흐릅니다.
+​
+매일 밤 
+당신이 훑고 지나간 
+모래 언덕 위에서
+부서진 내 뼈를 깎아 
+모래알을 하나씩 헤아립니다.
+
+당신이 남긴 그 수만 번의 무관심을
+사막의 물을 찾는 순례자처럼
+눈물 대신 메마른 모래를 담아 세어봅니다.
+
+이 외로움은 이 광활한 침묵보다 깊고
+이 기다림은 사막의 밤보다 차갑습니다.
+
+당신이 파도라면 이는 영원히 닿지 못할 갯바위
+부서질수록 당신에게 다가가고 싶어
+스스로 모래알이 되어 당신의 발치에 
+사막은 오늘도 대답 없는 파도를 기다리고
+등대는 오늘도 내 몸을 부수어
+당신이 지나갈 길 위에
+가장 낮은 모래의 서사를 써 내려갑니다.
+
+한 알, 두 알…
+당신을 향한 사랑은
+결국 끝없는 모래 폭풍이 되어
+이 몸을 다 깎아야
+비로소 멈추겠지요.
+​
+사막은 오늘도 대답 없는 파도를 기다리고
+등대는 오늘도 몸을 부수어
+당신이 지나갈 
+길 위에
+가장 낮은 모래의 서사를 써 내려갑니다.
+사랑이라고</div>
+                    </div>
+                    <div class="poem-column">
+                        <h5>[ English ]</h5>
+                        <div class="poem-content eng-font">A lighthouse, rooted alone
+in the heart of the desert.
+At its feet, an endless ocean of sand undulates,
+and the wave named you
+flows toward the horizon
+without ever once
+wetting these shores.
+
+Every night,
+upon the dunes you have swept past,
+I grind my broken bones
+to count the grains of sand, one by one.
+
+Like a pilgrim seeking water in the wasteland,
+I measure the tens of thousands of your indifferences,
+scooping up dry sand instead of tears.
+
+This solitude is deeper than this vast silence,
+this waiting, colder than the desert night.
+
+If you are the wave, I am the rock you will never reach.
+The more I shatter, the closer I yearn to be.
+Becoming grains of sand at your feet—
+the desert waits today for a wave that will not answer,
+and the lighthouse breaks its own body today
+to write an epic of the humblest sand
+upon the path where you will pass.
+
+One grain, two grains…
+This love for you
+will inevitably become an endless sandstorm,
+stopping only
+when my entire being has been worn away.
+
+The desert waits today for a wave that will not answer,
+and the lighthouse breaks its body today
+to write an epic of the humblest sand
+upon the path where you will pass.
+I call it love.</div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-poem-card">
-                <h5>4. 등대의 갈망 (The Lighthouse’s Yearning)</h5>
-                <p>사랑의 증명을 위해서라면 자신의 존재가 부서지는 것조차 갈망하는 등대의 투신을 보여줍니다. 인간 존재의 본질인 '사랑'을 증명하기 위해 기꺼이 온몸을 던져 세상을 겪어낸 치열한 생명력입니다.</p>
+
+            <!-- Poem 3 -->
+            <div id="poem-detail-3" class="poem-detail-view" style="display:none;">
+                <button class="back-btn"><i class="fa-solid fa-arrow-left"></i> 목록으로 (Back to List)</button>
+                <h4 class="detail-title">등대의 사랑의 서약<br><span>The Lighthouse’s Vow of Love</span></h4>
+                <div class="detail-intro">
+                    <p><strong>[Korean]</strong> 어떠한 시련 앞에서도 결코 불빛을 끄지 않겠다는 영원한 맹세입니다. 1989년 물리학도로 시작해 현재 기업의 대표가 되기까지 겪은 소통의 장벽, 오해, 위기 앞에서도 결코 흔들리지 않았던 작가의 굳건한 신념과 책임감을 상징합니다.</p>
+                    <p style="font-family: 'Cormorant Garamond', serif; font-size:1.05rem;"><strong>[English]</strong> This poem is an eternal pledge to never extinguish the light, regardless of freezing blizzards or profound misunderstandings. It symbolizes the author's unshakable core principles and sense of responsibility built over a career spanning from a physics student to a global CEO.</p>
+                </div>
+                <div class="detail-poems">
+                    <div class="poem-column">
+                        <h5>[ 한글 원문 ]</h5>
+                        <div class="poem-content">거친 파도가 밀려오고 
+어둠이 
+온 세상을 덮쳐와도 
+​
+나는 흔들림 없이 
+이 자리를 지키겠습니다.
+​
+계절이 바뀌고 
+매서운 눈보라가 치는 
+날씨 속에서,
+​
+때로는 견디기 힘든 
+극한의 온도와 
+거센 바람이,
+​
+우리를 
+스쳐 지나갈지라도,
+​
+시계 바늘이 
+멈춘 듯 길게 느껴지는 
+외로운 시간 속에서,
+​
+때론 우리가 마주해야만 하는 
+뜻밖의 고난
+서로를 향한 작은 오해,
+​
+그리고
+​
+기대가 컸던 만큼 
+찾아오는 
+깊은 실망의 순간들이 몰려온다 해도
+​
+그 모든 어둠과 시련이 
+우리만의 바다를 
+흔들지 못하도록
+​
+태양이 뜨겁게 
+내리쬐는 낮의 고요 속에서도,
+​
+매서운 추위가 파고드는 
+깊은 밤의 공포 속에서도
+​
+당신을 향한 
+그 불빛은 단 한 순간도 꺼지지 않습니다.
+​
+때론 누군가의 오해로 
+마음이 시리고 
+실망감에 
+발걸음이 무거워지는 
+고난의 밤이 올지라도,
+​
+당신이 걸어가는 
+그 길이 비록 험난하고 
+아득할지라도,
+​
+나는 지속적으로 변하는
+계절과 날씨를 넘어
+내가 가진 
+모든 빛을 모아 
+가장 안전한 바른길로 
+당신을 안내하겠습니다.
+​
+설령 
+오랜 세월이 흘러 
+나의 거친 뼈마저 고운 가루가 되어
+이 바다에 흩어진다 해도,
+​
+내가 가진 
+모든 빛을 모아 
+가장 안전한 바른길로 
+당신을 안내하겠습니다.
+​
+설령 
+오랜 세월이 흘러 
+나의 거친 뼈마저 고운 가루가 되어
+이 바다에 흩어진다 해도,
+​
+밤이 찾아오는 그 순간마다
+나는 다시 눈을 떠
+영원히
+당신의 행복을 비추는
+하나의 등대가 되겠습니다.
+​
+영원히
+당신의 행복을 비추는 
+하나의 등대가 되어 주겠습니다.
+​
+영원히
+당신의 행복을 비추는 
+하나의 등대가 되어 주겠습니다</div>
+                    </div>
+                    <div class="poem-column">
+                        <h5>[ English ]</h5>
+                        <div class="poem-content eng-font">When the fierce waves rush in
+and darkness
+engulfs the world,
+
+I shall stand my ground,
+unwavering.
+
+As seasons change
+and biting blizzards strike,
+
+Though the most unbearable,
+extreme temperatures
+and violent winds
+may sweep past us,
+
+In those lonely hours
+when the hands of the clock seem frozen,
+
+Through the unexpected hardships
+we must sometimes face,
+the slight misunderstandings,
+
+And the moments of profound disappointment
+that crash down
+as heavily as our hopes were high—
+
+Even if all that darkness and trial arrives,
+they shall not shake
+our own private sea.
+
+In the quiet of the day, beneath the scorching sun,
+In the terror of the deep night, pierced by the bitter cold,
+
+The light shining toward you
+will not extinguish, not even for a second.
+
+Though there may come a night of suffering
+where someone's misunderstanding chills the heart
+and disappointment weighs down your steps,
+
+Though the road you walk
+may be treacherous and far-off,
+
+Beyond the ever-changing
+seasons and weather,
+
+I will gather all the light I possess
+to guide you safely
+along the most righteous path.
+
+Even if countless years pass
+and my rough bones crumble into fine dust,
+scattering across this sea,
+
+I will gather all the light I possess
+to guide you safely
+along the most righteous path.
+
+Even if countless years pass
+and my rough bones crumble into fine dust,
+scattering across this sea,
+
+Whenever the night falls,
+I will open my eyes once more,
+
+And forever
+become the single lighthouse
+that illuminates your happiness.
+
+I will forever
+be the one lighthouse
+that illuminates your happiness.
+
+I will forever
+be the one lighthouse
+that illuminates your happiness.</div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-poem-card">
-                <h5>5. 등대, 빛과 선율의 고백 (The Lighthouse, A Confession of Light and Melody)</h5>
-                <p>파도의 '떨림'과 빛의 '직진성'이라는 물리학적 현상을 예술과 사랑의 언어로 치환하여 차가운 과학의 눈으로 세상을 가장 따뜻하게 해석해 내는 고유한 정체성을 보여줍니다.</p>
+
+            <!-- Poem 4 -->
+            <div id="poem-detail-4" class="poem-detail-view" style="display:none;">
+                <button class="back-btn"><i class="fa-solid fa-arrow-left"></i> 목록으로 (Back to List)</button>
+                <h4 class="detail-title">등대의 갈망<br><span>The Lighthouse’s Yearning</span></h4>
+                <div class="detail-intro">
+                    <p><strong>[Korean]</strong> 사랑의 증명을 위해서라면 자신의 존재가 부서지는 것조차 갈망하는 등대의 투신을 보여줍니다. 삶을 관망하는 데 그치지 않고 인간 존재의 본질인 '사랑'을 증명하기 위해 거친 심연 속으로 기꺼이 온몸을 던져 세상을 겪어낸 치열한 생명력을 의미합니다.</p>
+                    <p style="font-family: 'Cormorant Garamond', serif; font-size:1.05rem;"><strong>[English]</strong> The lighthouse craves the fierce waves of love, willing to be shattered to pieces to prove its dedication. It represents the author's existential courage—never merely observing life, but leaping into its most agonizing depths to experience the raw essence of human struggle and love.</p>
+                </div>
+                <div class="detail-poems">
+                    <div class="poem-column">
+                        <h5>[ 한글 원문 ]</h5>
+                        <div class="poem-content">갈망한다.
+바다 건너, 사랑이 거센 파도가 되어
+세차게 뒤흔들기를.
+​​
+파도에
+몸이 산산이 부서진다 한들,
+사랑이라면 기꺼이 받아낼 각오로.
+​갈망한다.
+​​
+미움이 거센 파도가 되어
+가슴을 사납게 할퀴고 지나가기를.
+파도에
+존재가 흩어진다 한들,
+미움이라면 기꺼이 받아낼 각오로.
+​갈망한다.
+​
+혹한 같은 무관심이
+붉은 얼어붙은 파도가 되어
+영혼을 덮치기를.
+그리고
+흔적 없이 사라진다 한들,
+사라져버린
+영혼의 차가운 침묵마저 기꺼이 받아낼 각오로.
+​
+​그래서
+그래서
+등대는 섬을 버리고 바다로 투신한다.
+사랑을 증명할 유일한 단어,
+생의 마지막 글자,
+​
+사랑을
+​
+깊고 푸른 바다의 심장 속에 묻는다.</div>
+                    </div>
+                    <div class="poem-column">
+                        <h5>[ English ]</h5>
+                        <div class="poem-content eng-font">I yearn.
+I yearn for love to become a fierce wave across the sea,
+shaking me violently.
+
+Even if my body is smashed to pieces
+by the crashing tide,
+if it is love, I am ready to embrace it.
+I yearn.
+
+I yearn for hatred to become a fierce wave,
+ruthlessly clawing at my chest as it passes.
+Even if my existence is scattered
+by the crashing tide,
+if it is hatred, I am ready to embrace it.
+I yearn.
+
+Let indifference, like a bitter winter,
+become a red, frozen wave
+that swallows my soul.
+And even if I vanish without a trace,
+I am ready to embrace even the cold silence
+of my disappeared soul.
+
+And so,
+and so,
+the lighthouse abandons the island and throws itself into the sea.
+To prove love—the only word,
+the final letter of its life—
+
+It buries love
+inside the heart of the deep blue sea.</div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-poem-card">
-                <h5>6. 등대, 멈추지 않는 기다림 (The Lighthouse, Unceasing Waiting)</h5>
-                <p>부정적인 감정들을 꾸짖지 않고 그저 묵묵히 빛을 비추어 대상이 스스로 길을 찾도록 돕는 현자의 태도이자 성숙한 리더십의 포용력을 이야기합니다.</p>
+
+            <!-- Poem 5 -->
+            <div id="poem-detail-5" class="poem-detail-view" style="display:none;">
+                <button class="back-btn"><i class="fa-solid fa-arrow-left"></i> 목록으로 (Back to List)</button>
+                <h4 class="detail-title">등대, 빛과 선율의 고백<br><span>The Lighthouse, A Confession of Light and Melody</span></h4>
+                <div class="detail-intro">
+                    <p><strong>[Korean]</strong> 파도의 미세한 떨림을 읽어내어 사랑의 선율로 빚어내는 과정입니다. 파도의 '떨림(파동)'과 빛의 '직진성'이라는 물리학적 현상을 예술과 사랑의 언어로 치환하여 차가운 과학의 눈으로 세상을 가장 따뜻하게 해석해 내는 시인의 고유한 정체성을 보여줍니다.</p>
+                    <p style="font-family: 'Cormorant Garamond', serif; font-size:1.05rem;"><strong>[English]</strong> The poem transforms the physical phenomena of wave vibrations and light into the language of art and love. It demonstrates the author's unique identity, interpreting the world through the objective lens of a physicist, yet expressing it with profound warmth and emotion.</p>
+                </div>
+                <div class="detail-poems">
+                    <div class="poem-column">
+                        <h5>[ 한글 원문 ]</h5>
+                        <div class="poem-content">등대는 보았습니다.
+파도의 미세한 떨림을 오롯이 읽어내는 이만이
+깊은 바다라는 무한의 품속으로
+영혼에 깃든 사랑을 온전히 녹여낼 수 있음을.
+
+등대는 들었습니다.
+파도의 떨리는 선율을 듣는 이가
+비로소 사랑의 심해에 닿아,
+가늠할 수 없던 깊은 사랑의 울림을
+혼돈의 물결 위에서 스스로 빚어내며,
+
+그 간절한 바라봄과 귀 기울임으로
+어둠을 가르는 빛과 선율이 되어
+사랑의 영원한 악보를 완성해 나가는 것을 말입니다.
+
+그러니 저는
+기꺼이 당신의 등대가 되겠습니다.
+거친 해류 속에서도 길을 잃지 않도록
+당신이라는 바다를 비추는
+가장 낮은 곳의 별, 등대가 되겠습니다.</div>
+                    </div>
+                    <div class="poem-column">
+                        <h5>[ English ]</h5>
+                        <div class="poem-content eng-font">The lighthouse saw.
+That only the one who wholly reads the subtle trembling of the waves
+can perfectly dissolve the love dwelling in their soul
+into the infinite embrace of the deep sea.
+
+The lighthouse heard.
+That only when one listens to the trembling melody of the waves
+do they finally reach the abyss of love,
+forging the unfathomable resonance of deep affection
+upon the chaotic tides by their own hands.
+
+And through that desperate gazing and listening,
+they become the light and melody piercing the dark,
+completing the eternal sheet music of love.
+
+Therefore, I
+will gladly be your lighthouse.
+So that you do not lose your way in the turbulent currents,
+I will be the star at the lowest place,
+the lighthouse illuminating the ocean that is you.</div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-poem-card">
-                <h5>7. 일깨우는 바람, 견고한 등대의 빛 (Awakening Wind, The Solid Light)</h5>
-                <p>안주하려는 마음을 바람이 일깨우고, 다시 한번 끝없이 남김없이 빛을 비추겠다는 다짐을 새롭게 합니다. 늘 깨어있는 의식으로 새로운 도전을 마주하는 끝나지 않은 여정입니다.</p>
+
+            <!-- Poem 6 -->
+            <div id="poem-detail-6" class="poem-detail-view" style="display:none;">
+                <button class="back-btn"><i class="fa-solid fa-arrow-left"></i> 목록으로 (Back to List)</button>
+                <h4 class="detail-title">등대, 멈추지 않는 기다림<br><span>The Lighthouse, Unceasing Waiting</span></h4>
+                <div class="detail-intro">
+                    <p><strong>[Korean]</strong> 부정적인 감정들을 꾸짖지 않고 그저 묵묵히 빛을 비추어 대상이 스스로 길을 찾도록 돕는 포용력을 이야기합니다. 기업의 리더이자 해외 무대에서 다양한 문화를 조율해 온 작가가 진실한 빛(비전)을 통해 타인이 스스로 깨닫도록 돕는 현자의 태도입니다.</p>
+                    <p style="font-family: 'Cormorant Garamond', serif; font-size:1.05rem;"><strong>[English]</strong> Instead of scolding negative emotions, the lighthouse silently shines its light, allowing others to find their own paths. This reflects the inclusive philosophy of a CEO who has spent decades harmonizing diverse people, empowering them through steady vision rather than force.</p>
+                </div>
+                <div class="detail-poems">
+                    <div class="poem-column">
+                        <h5>[ 한글 원문 ]</h5>
+                        <div class="poem-content">등대는 미움을 꾸짖지 않고 묵묵히 빛을 비추어 스스로 화해의 길을 찾게 합니다.
+​
+등대는 두려움을 나무라지 않고 묵묵히 빛을 비추어 스스로 용기의 길을 찾게 합니다.
+​
+등대는 혐오를 배척하지 않고 묵묵히 빛을 비추어 스스로 이해의 길을 찾게 합니다.
+​
+등대는 공포를 외면하지 않고 묵묵히 빛을 비추어 스스로 평온의 길을 찾게 합니다.
+​
+등대는 당신에게 중요합니다.
+​
+내가 당신에게 빛을 비추니,
+​
+내가 당신을 바라보니,
+​
+당신이 비로소 길을 찾기를 묵묵히 소망하는
+​
+등대의 빛의 창문으로 당신을 보고 있기 때문입니다.​</div>
+                    </div>
+                    <div class="poem-column">
+                        <h5>[ English ]</h5>
+                        <div class="poem-content eng-font">The lighthouse does not rebuke hatred, but silently shines its light, allowing it to find the path of reconciliation on its own.
+
+The lighthouse does not scold fear, but silently shines its light, allowing it to find the path of courage on its own.
+
+The lighthouse does not reject disgust, but silently shines its light, allowing it to find the path of understanding on its own.
+
+The lighthouse does not turn away from terror, but silently shines its light, allowing it to find the path of peace on its own.
+
+The lighthouse matters to you.
+
+Because I shine my light upon you,
+Because I gaze upon you,
+
+I am watching you through the window of the lighthouse's light,
+silently hoping that you will, at last, find your way.</div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Poem 7 -->
+            <div id="poem-detail-7" class="poem-detail-view" style="display:none;">
+                <button class="back-btn"><i class="fa-solid fa-arrow-left"></i> 목록으로 (Back to List)</button>
+                <h4 class="detail-title">일깨우는 바람, 견고한 등대의 빛​<br><span>Awakening Wind, The Solid Light of the Lighthouse</span></h4>
+                <div class="detail-intro">
+                    <p><strong>[Korean]</strong> 안주하려는 마음을 바람이 일깨우고, 등대는 다시 한번 끝없이 바다를 향해 남김없이 빛을 비추겠다는 다짐을 새롭게 합니다. 오랜 업적에 안주하지 않고 늘 깨어있는 의식으로 자신을 채찍질하며 언제나 새로운 도전을 마주하는 작가의 여정을 의미합니다.</p>
+                    <p style="font-family: 'Cormorant Garamond', serif; font-size:1.05rem;"><strong>[English]</strong> The wind awakens the lighthouse from the temptation to settle, prompting a renewed vow to shine boundlessly. It captures the author's refusal to complacently rest on past achievements, driven by an ever-awakening consciousness to continuously challenge himself.</p>
+                </div>
+                <div class="detail-poems">
+                    <div class="poem-column">
+                        <h5>[ 한글 원문 ]</h5>
+                        <div class="poem-content">바람이 등대를 일깨우면
+멈추어 있던 시간이 비로소 흐르고,
+​
+찰나의 행복을 영원에 가두려던
+나의 서툰 다짐은 파도 위로 흩어집니다.
+​
+바다는 저 혼자 깊어지며
+일렁이는 영원의 행복을 꿈꾸고,
+​
+바람은 다시금 등대의 어깨를 흔들어
+잠들지 못하는 심장을 깨웁니다.
+​
+아련한 아쉬움의 그림자로 남기보다
+그 어떤 풍랑에도 깨어지지 않을
+견고한 행복으로 온전히 빛나기를.
+​
+그것이 끝내 가 닿지 못할 욕심이라 해도,
+나는 주저 없이 그대의 잠을 일깨우고
+그 바다의 가장 깊은 곳까지
+오래도록, 
+남김없이 빛을 비추겠습니다.
+당신에게</div>
+                    </div>
+                    <div class="poem-column">
+                        <h5>[ English ]</h5>
+                        <div class="poem-content eng-font">When the wind awakens the lighthouse,
+the stagnant time finally flows,
+
+And my clumsy vows,
+trying to trap a fleeting joy in eternity,
+scatter over the waves.
+
+The sea deepens all on its own,
+dreaming of an eternal, rippling happiness,
+
+And the wind shakes the shoulders of the lighthouse once more,
+waking the heart that cannot sleep.
+
+Rather than remaining as a shadow of vague regrets,
+may it shine purely as a solid happiness
+that no storm can shatter.
+
+Even if that is a greed I can never fulfill,
+I will awaken your sleep without hesitation,
+and shine my light endlessly,
+down to the deepest abyss of that sea,
+leaving nothing behind.
+
+To you.</div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
@@ -705,11 +1430,11 @@
 <!-- 모달 제어용 JavaScript -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // --- 1. 기본 모달 열기/닫기 ---
         const modalBtns = document.querySelectorAll(".open-modal-btn");
         const closeBtns = document.querySelectorAll(".modal-close-btn");
         const overlays = document.querySelectorAll(".modal-overlay");
 
-        // 모달 열기
         modalBtns.forEach(btn => {
             btn.addEventListener("click", function() {
                 const targetId = this.getAttribute("data-target");
@@ -721,24 +1446,70 @@
             });
         });
 
-        // 닫기 버튼으로 모달 닫기
         closeBtns.forEach(btn => {
             btn.addEventListener("click", function() {
                 const modal = this.closest(".modal-overlay");
                 if(modal) {
-                    modal.classList.remove("active");
-                    document.body.style.overflow = ""; // 배경 스크롤 복구
+                    closeModal(modal);
                 }
             });
         });
 
-        // 배경(오버레이) 클릭 시 모달 닫기
         overlays.forEach(overlay => {
             overlay.addEventListener("click", function(e) {
                 if(e.target === this) {
-                    this.classList.remove("active");
-                    document.body.style.overflow = "";
+                    closeModal(this);
                 }
+            });
+        });
+
+        function closeModal(modal) {
+            modal.classList.remove("active");
+            document.body.style.overflow = ""; // 배경 스크롤 복구
+            
+            // 만약 '시 소개' 모달을 닫았다면, 다음번에 열 때 목록이 보이도록 초기화
+            if(modal.id === "modal-poems") {
+                setTimeout(() => {
+                    document.getElementById('poem-list-view').style.display = 'block';
+                    document.querySelectorAll('.poem-detail-view').forEach(view => {
+                        view.style.display = 'none';
+                    });
+                }, 300);
+            }
+        }
+
+        // --- 2. 시 소개 모달 내부 네비게이션 ---
+        const poemListCards = document.querySelectorAll('.poem-list-card');
+        const poemBackBtns = document.querySelectorAll('.back-btn');
+        const poemListView = document.getElementById('poem-list-view');
+        
+        poemListCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const poemId = this.getAttribute('data-poem');
+                
+                // 목록 숨기기
+                poemListView.style.display = 'none';
+                
+                // 해당 시 상세 뷰 보이기
+                document.getElementById('poem-detail-' + poemId).style.display = 'block';
+                
+                // 모달 스크롤 맨 위로 올리기
+                this.closest('.modal-content').scrollTop = 0;
+            });
+        });
+
+        poemBackBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 모든 상세 뷰 숨기기
+                document.querySelectorAll('.poem-detail-view').forEach(view => {
+                    view.style.display = 'none';
+                });
+                
+                // 다시 목록 뷰 보이기
+                poemListView.style.display = 'block';
+                
+                // 모달 스크롤 맨 위로 올리기
+                this.closest('.modal-content').scrollTop = 0;
             });
         });
     });
